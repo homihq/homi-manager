@@ -17,4 +17,11 @@ public class ProjectController {
 
         return "projects/list";
     }
+
+    @GetMapping("/new")
+    public String showNewProject(Model model) {
+
+
+        return "projects/new";
+    }
 }
