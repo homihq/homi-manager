@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${DB_SERVER:arjun-prod.c1c3ax1jvdbz.us-east-1.rds.amazonaws.com}:${DB_PORT:3452}/${DB_NAME:arjundb}
-    username: ${DB_USER:arjunk}
-    password: ${DB_PASSWORD:Kolkata84}
+    url: jdbc:postgresql://${DB_SERVER}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
 
 
 

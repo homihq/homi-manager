@@ -44,6 +44,6 @@ logging:
 
 aws:
   ses:
-    awsAccessKey: AKIAX226J2W5LR6EIIEJ
-    awsSecretKey: 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
-    region: us-east-1
+    awsAccessKey: ${AWS_ACCESS_KEY}
+    awsSecretKey: ${AWS_SECRET_KEY}
+    region:  ${AWS_REGION}
