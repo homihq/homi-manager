@@ -1,0 +1,22 @@
+[
+  {
+    "url" : "/signup",
+    "exception" : "DataIntegrityViolationException",
+    "view": "signup",
+    "msgKey" : "error.signup.duplicate",
+    "attributes": [
+      {
+        "key" :  "registered",
+        "value" : false
+      }
+    ]
+  },
+  {
+    "url" : "/verification",
+    "exception" : "EmailLinkVerificationFailureException",
+    "view": "verified",
+    "msgKey" : "error.signup.verify"
+  }
+
+
+]

@@ -1,1 +1,49 @@
+server:
+  port: 8080
+  forward-headers-strategy: framework
 
+
+spring:
+  session:
+    store-type: jdbc
+
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        dialect: com.homihq.manager.core.dialect.PostgresSQL10JsonDialect
+
+  servlet:
+    multipart:
+      max-file-size: 3MB
+      max-request-size: 3MB
+
+
+  mvc:
+      throw-exception-if-no-handler-found: true
+
+
+app:
+  bulk:
+    max-emails: 200
+
+logging:
+  level:
+    org.springframework.security: info
+    org.springframework.web: info
+    org.springframework.jdbc: info
+    org.springframework.session: info
+    org.springframework: info
+    com.getarjun: info
+    net.ttddyy.dsproxy.listener: info
+    #org.hibernate.SQL: trace
+    #org.hibernate.type.descriptor.sql.BasicBinder: info
+    #sql: info
+
+
+aws:
+  ses:
+    awsAccessKey: AKIAX226J2W5LR6EIIEJ
+    awsSecretKey: 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
+    region: us-east-1

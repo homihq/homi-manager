@@ -1,0 +1,10 @@
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/arjunhqdb
+    username: arjunhq
+    password: postgres2020
+
+app:
+  signup:
+    verify: http://localhost:8080/verification

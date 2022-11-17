@@ -1,8 +1,8 @@
-<head xmlns:th="http://www.thymeleaf.org" th:fragment="head">
+<head xmlns:th="http://www.thymeleaf.org" th:fragment="head(title)">
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>HOMI - Secure APIs in 5 minutes.</title>
+    <title th:replace="${title}">HOMI - Secure APIs in 5 minutes</title>
     <!-- CSS files -->
     <link href="/css/tabler.min.css?1668287865" rel="stylesheet"/>
     <link href="/css/tabler-flags.min.css?1668287865" rel="stylesheet"/>
