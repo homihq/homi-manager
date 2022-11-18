@@ -46,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterAfter(customExceptionTranslationFilter, ExceptionTranslationFilter.class)
                 .authorizeRequests().antMatchers("/signin","/authenticate","/webjars/**",
-                        "/register","/actuator/health", "/","/signup","/verification","/waitlist",
+                        "/register","/actuator/health", "/","/signup","/verify","/waitlist",
                         "/v2/play/**",
                         "/js/**","/assets/**","/billing/calculator",
                         "/css/**","/sitemap.txt","/robots.txt",

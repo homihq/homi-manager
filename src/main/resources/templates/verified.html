@@ -1,0 +1,82 @@
+
+<!doctype html>
+
+<html lang="en">
+<head th:replace="common/head :: head( ~{::title})">
+  <title>HOMI - Email Verified</title>
+</head>
+<body >
+<script src="/js/demo-theme.min.js?1668287865"></script>
+<div class="page">
+  <!-- Navbar -->
+  <div th:replace="common/guestheader :: header">
+
+  </div>
+
+  <div class="page-wrapper">
+    <!-- Page body -->
+    <div class="page-body">
+      <div class="container-xl d-flex flex-column justify-content-center">
+        <div class="empty">
+          <div class="empty-img"><img src="/assets/illustrations/undraw_joyride_hnno.svg" height="128" alt="">
+          </div>
+          <p class="empty-title">Email Verification</p>
+          <p class="empty-subtitle text-success" th:utext="#{__${successKey}__}" th:if="${successKey}">
+          <p class="empty-subtitle text-warning" th:utext="#{__${errorKey}__}" th:if="${errorKey}">
+
+          </p>
+          <div class="empty-action">
+            <a href="/signin" class="btn btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
+                <path d="M20 12h-13l3 -3m0 6l-3 -3"></path>
+              </svg>
+              Sign In
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="footer footer-transparent d-print-none">
+      <div class="container-xl">
+        <div class="row text-center align-items-center flex-row-reverse">
+          <div class="col-lg-auto ms-lg-auto">
+            <ul class="list-inline list-inline-dots mb-0">
+              <li class="list-inline-item"><a href="./docs/" class="link-secondary">Documentation</a></li>
+              <li class="list-inline-item"><a href="./license.html" class="link-secondary">License</a></li>
+              <li class="list-inline-item"><a href="https://github.com/tabler/tabler" target="_blank" class="link-secondary" rel="noopener">Source code</a></li>
+              <li class="list-inline-item">
+                <a href="https://github.com/sponsors/codecalm" target="_blank" class="link-secondary" rel="noopener">
+                  <!-- Download SVG icon from http://tabler-icons.io/i/heart -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon text-pink icon-filled icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" /></svg>
+                  Sponsor
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+            <ul class="list-inline list-inline-dots mb-0">
+              <li class="list-inline-item">
+                Copyright &copy; 2022
+                <a href="." class="link-secondary">Tabler</a>.
+                All rights reserved.
+              </li>
+              <li class="list-inline-item">
+                <a href="./changelog.html" class="link-secondary" rel="noopener">
+                  v1.0.0-beta16
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+<!-- Libs JS -->
+<!-- Tabler Core -->
+<script src="./dist/js/tabler.min.js?1668287865" defer></script>
+<script src="./dist/js/demo.min.js?1668287865" defer></script>
+</body>
+</html>

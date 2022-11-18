@@ -7,4 +7,4 @@ spring:
 
 app:
   signup:
-    verify: http://localhost:8080/verification
+    verify: http://localhost:8080/verify

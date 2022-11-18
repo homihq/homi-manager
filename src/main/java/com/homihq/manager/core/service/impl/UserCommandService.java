@@ -8,10 +8,9 @@ import com.homihq.manager.core.domain.User;
 import com.homihq.manager.core.event.EventPublisher;
 import com.homihq.manager.core.event.UserRegisteredEvent;
 import com.homihq.manager.core.repository.RoleRepository;
-import com.homihq.manager.core.repository.TenantRepository;
 import com.homihq.manager.core.repository.UserRepository;
 import com.homihq.manager.core.service.UserCommandUseCase;
-import com.homihq.manager.exception.EmailLinkVerificationFailureException;
+import com.homihq.manager.exception.EmailVerificationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -103,10 +102,11 @@ class UserCommandService implements UserCommandUseCase {
             u.setEnabled(true);
             u.setVerificationTokenExpiry(null);
             u.setVerificationToken(null);
+            u.setEmailVerified(true);
             this.userRepository.save(u);
         }
         else{
-            throw new EmailLinkVerificationFailureException("Unable to verify.");
+            throw new EmailVerificationException("Unable to verify email.");
         }
 
         return user.get();

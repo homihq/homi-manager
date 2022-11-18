@@ -9,4 +9,4 @@ spring:
 
 app:
   signup:
-    verify: https://do.homihq.com/verification
+    verify: https://do.homihq.com/verify

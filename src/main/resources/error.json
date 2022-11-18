@@ -12,8 +12,8 @@
     ]
   },
   {
-    "url" : "/verification",
-    "exception" : "EmailLinkVerificationFailureException",
+    "url" : "/verify",
+    "exception" : "EmailVerificationException",
     "view": "verified",
     "msgKey" : "error.signup.verify"
   }

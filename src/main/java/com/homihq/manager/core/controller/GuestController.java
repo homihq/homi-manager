@@ -47,13 +47,13 @@ public class GuestController {
         return "signup";
     }
 
-    @GetMapping("/verification")
+    @GetMapping("/verify")
     public String verification(@RequestParam("cd") String code, Model model) {
         log.info("Email link verification - {}", code);
 
         this.userCommandUseCase.verify(new UserCommandUseCase.EmailLinkVerificationCommand(code));
         model.addAttribute("successKey", "success.signup.emailverified");
-        return "linkverified";
+        return "verified";
     }
 
     @PostMapping("/signup")

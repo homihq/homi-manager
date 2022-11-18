@@ -1,7 +1,7 @@
 package com.homihq.manager.core;
 
-import com.homihq.manager.core.domain.QuickLead;
+import com.homihq.manager.core.domain.Lead;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LeadRepository extends JpaRepository<QuickLead, Long> {
+public interface LeadRepository extends JpaRepository<Lead, Long> {
 }

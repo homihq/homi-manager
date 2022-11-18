@@ -73,4 +73,7 @@ public class User implements Serializable {
 	private LocalDateTime verificationTokenExpiry;
 	@Column(name = "enabled")
 	private boolean enabled;
+
+	@Column(name = "email_verified")
+	private boolean emailVerified;
 }
