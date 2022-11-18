@@ -59,7 +59,7 @@ CREATE TABLE t_user (
 
 -- t_user foreign keys
 
-ALTER TABLE t_user ADD CONSTRAINT t_user_fk_tentant_id FOREIGN KEY (id) REFERENCES t_tenant(id);
+-- ALTER TABLE t_user ADD CONSTRAINT t_user_fk_tentant_id FOREIGN KEY (id) REFERENCES t_tenant(id);
 
 
 

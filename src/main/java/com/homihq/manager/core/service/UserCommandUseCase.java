@@ -25,6 +25,7 @@ public interface UserCommandUseCase extends UserDetailsService {
         String role;
         String firstName;
         String lastName;
+        String company;
         String password;
         String email;
 

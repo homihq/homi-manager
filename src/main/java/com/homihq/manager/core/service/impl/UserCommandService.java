@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
 class UserCommandService implements UserCommandUseCase {
 
     private final TenantService tenantService;
-    private final TenantRepository tenantRepository;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
@@ -45,7 +44,7 @@ class UserCommandService implements UserCommandUseCase {
     @Override
     public User register(UserRegistrationCommand userRegistrationCommand) {
 
-        log.info("User registration command - {}", userRegistrationCommand);
+        log.info("User registration command - {}", userRegistrationCommand.getEmail());
 
         Optional<Role> role = this.roleRepository.findByName(userRegistrationCommand.getRole());
 
@@ -53,9 +52,10 @@ class UserCommandService implements UserCommandUseCase {
             throw new RuntimeException("Role not found.");
         }
 
+        //Tenant tenant = tenantService.save(userRegistrationCommand.getCompany());
         Tenant tenant = new Tenant();
+        tenant.setName(userRegistrationCommand.getCompany());
         tenant.setTenantId(UUID.randomUUID().toString());
-        tenant = tenantRepository.save(tenant);
 
         log.info("## tenant - {}", tenant);
 

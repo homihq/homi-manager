@@ -26,6 +26,9 @@ public class Tenant implements Serializable {
     @Column(name = "tenant_id", unique = true)
     private String tenantId;
 
+    @Column(name = "name", unique = true)
+    private String name;
+
 
     @CreatedDate
     @Column(name = "created_date")

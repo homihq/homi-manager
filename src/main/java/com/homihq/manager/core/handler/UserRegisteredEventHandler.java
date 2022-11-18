@@ -23,10 +23,10 @@ public class UserRegisteredEventHandler {
         log.info("Handling user registered event - {}", userRegisteredEvent);
 
         Mail mail = new Mail();
-        mail.setFrom("arjun@getarjun.com");
+        mail.setFrom("homi@homihq.com");
         mail.setTo(userRegisteredEvent.getUser().getEmail());
         mail.setTemplateName("email-confirmation");
-        mail.setSubject("GetArjun : Please verify your signup.");
+        mail.setSubject("HOMI : Please verify your signup.");
         mail.setModel(userRegisteredEvent.toMap());
 
         awsSesService.sendEmail(mail);

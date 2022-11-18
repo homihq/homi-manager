@@ -58,20 +58,22 @@ public class GuestController {
 
     @PostMapping("/signup")
     public String register(@Valid UserRegistrationForm userRegistrationForm, BindingResult bindingResult, Locale locale,
-                           HttpServletRequest httpServletRequest,
                            Model model){
-        log.info("Registering user - {}", userRegistrationForm);
+        log.info("Registering new user - {}", userRegistrationForm.email);
         model.addAttribute(userRegistrationForm);
 
         if (bindingResult.hasErrors()) {
-            log.info("Form validation error. - {}", bindingResult);
-            log.info("Model - {}", model);
+
+           log.info("Form validation error");
+            model.addAttribute("errorKey", "registration.form.validation.failed");
             return "signup";
         }
 
+
+
         UserCommandUseCase.UserRegistrationCommand userRegistrationCommand =
         modelMapper.map(userRegistrationForm, UserCommandUseCase.UserRegistrationCommand.class);
-        userRegistrationCommand.setRole(Role.TENANT_ADMIN);
+        userRegistrationCommand.setRole(Role.ROLE_TENANT_ADMIN);
 
         userRegistrationCommand.setLocale(locale);
         userRegistrationCommand.setUrl(verifyUrl);
@@ -87,15 +89,19 @@ public class GuestController {
     private static class UserRegistrationForm {
 
 
-        @NotBlank
+        @NotBlank(message = "First Name is required.")
         String firstName;
 
-        @NotBlank
+        @NotBlank(message = "Last Name is required.")
         String lastName;
 
-        @NotBlank
+        @NotBlank(message = "Company Name is required.")
+        String company;
+
+        @NotBlank(message = "Password is required.")
         String password;
 
+        @NotBlank(message = "Email is required.")
         @Email(message = "Email is not valid.")
         String email;
 

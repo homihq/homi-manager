@@ -32,33 +32,81 @@
             <img src="/assets/logo-no-background.svg" width="110" height="36" alt="HOMI" class="navbar-brand-image">
           </a>
         </div>
-        <form class="card card-md" action="./" method="get" autocomplete="off" novalidate>
+        <form class="card card-md" th:action="@{/signup}"
+              th:object="${userRegistrationForm}" method="post"
+              autocomplete="off" novalidate>
           <div class="card-body">
             <h2 class="card-title text-center mb-4">Create new account</h2>
-            <div class="mb-3">
-              <label class="form-label">Name</label>
-              <input type="text" class="form-control" placeholder="Enter name">
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Company</label>
-              <input type="text" class="form-control" placeholder="Enter company name">
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Email address</label>
-              <input type="email" class="form-control" placeholder="Enter email">
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Password</label>
-              <div class="input-group input-group-flat">
-                <input type="password" class="form-control"  placeholder="Password"  autocomplete="off">
-                <!--
-                <span class="input-group-text">
-                  <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="2" /><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" /></svg>
-                  </a>
-                </span>
-                -->
+
+            <div class="mb-3" th:if="${errorKey}">
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div th:utext="#{__${errorKey}__}"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
+            </div>
+
+            <div class="mb-3" th:if="${successKey}">
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <div th:utext="#{__${successKey}__}"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </div>
+
+
+            <div class="mb-3">
+              <label class="form-label required">First Name</label>
+              <input type="text" class="form-control" placeholder="Enter name" th:field="*{firstName}"
+                     th:errorclass="is-invalid"
+              >
+
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">
+                Please choose a username.
+              </div>
+
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label required">Last Name</label>
+              <input type="text" class="form-control" placeholder="Enter name" th:field="*{lastName}"
+                     th:errorclass="is-invalid"
+              >
+
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">
+                Please choose a username.
+              </div>
+
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label required">Company</label>
+              <input type="text" class="form-control" placeholder="Enter company name" th:field="*{company}"
+                     th:errorclass="is-invalid">
+
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('company')}" th:errors="*{company}">
+                Please choose a username.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label required">Email address</label>
+              <input type="email" class="form-control" placeholder="Enter email"  th:field="*{email}"
+                     th:errorclass="is-invalid">
+
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" >
+                Please choose a username.
+              </div>
+
+            </div>
+            <div class="mb-3">
+              <label class="form-label required">Password</label>
+
+              <input type="password" class="form-control"  placeholder="Password"  autocomplete="off" th:field="*{password}"
+                     th:errorclass="is-invalid">
+
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" >
+                Please choose a username.
+              </div>
+
             </div>
             <!--
             <div class="mb-3">

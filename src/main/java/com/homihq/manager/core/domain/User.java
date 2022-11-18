@@ -63,7 +63,7 @@ public class User implements Serializable {
 	@Column(name = "last_login_date")
 	private LocalDateTime lastLoginDate;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "tenant_id", referencedColumnName = "id")
 	private Tenant tenant;
 
