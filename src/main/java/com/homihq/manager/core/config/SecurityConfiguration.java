@@ -2,6 +2,7 @@ package com.homihq.manager.core.config;
 
 
 
+import com.homihq.manager.core.error.LoginFailureHandler;
 import com.homihq.manager.core.service.UserCommandUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserCommandUseCase userCommandUseCase;
     private final PasswordEncoder passwordEncoder;
+
+    private final LoginFailureHandler loginFailureHandler;
 
     final CustomAuthenticationEntryPoint customAuthenticationEntryPoint =
             new CustomAuthenticationEntryPoint("/signin");
@@ -47,7 +50,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.addFilterAfter(customExceptionTranslationFilter, ExceptionTranslationFilter.class)
                 .authorizeRequests().antMatchers("/signin","/authenticate","/webjars/**",
                         "/register","/actuator/health", "/","/signup","/verify","/waitlist",
-                        "/v2/play/**",
                         "/js/**","/assets/**","/billing/calculator",
                         "/css/**","/sitemap.txt","/robots.txt",
                         "/fonts/**",
@@ -56,7 +58,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginProcessingUrl("/authenticate")
                 .usernameParameter("username").passwordParameter("password")
-                .loginPage("/signin").defaultSuccessUrl("/dashboard")
+                .loginPage("/signin").defaultSuccessUrl("/projects")
+                .failureHandler(this.loginFailureHandler)
                 .permitAll()
                 .and()
                 .logout()
