@@ -40,6 +40,8 @@ logging:
     #org.hibernate.SQL: trace
     #org.hibernate.type.descriptor.sql.BasicBinder: info
     #sql: info
+    org.apache.http: DEBUG
+    httpclient.wire: DEBUG
 
 
 aws:
@@ -47,3 +49,5 @@ aws:
     awsAccessKey: ${AWS_ACCESS_KEY}
     awsSecretKey: ${AWS_SECRET_KEY}
     region:  ${AWS_REGION}
+
+
