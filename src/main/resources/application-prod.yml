@@ -10,3 +10,6 @@ spring:
 app:
   signup:
     verify: https://do.homihq.com/verify
+
+digitalocean:
+  token: ${DO_TOKEN}

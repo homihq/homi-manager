@@ -8,3 +8,6 @@ spring:
 app:
   signup:
     verify: http://localhost:8080/verify
+
+digitalocean:
+  token: ${DO_TOKEN}
