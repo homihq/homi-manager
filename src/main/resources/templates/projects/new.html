@@ -67,16 +67,36 @@
             <div class="row row-cards">
 
               <div class="col-12">
-                <form class="card">
+                <form class="card" th:action="@{/projects/save}"
+                      th:object="${createProjectForm}" method="post"
+                      autocomplete="off" novalidate>
                   <div class="card-body">
-                    <h3 class="card-title">Edit Profile</h3>
-                    <div class="row row-cards">
 
+                    <div class="mb-3" th:if="${errorKey}">
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div th:utext="#{__${errorKey}__}"></div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                    </div>
+
+                    <div class="mb-3" th:if="${successKey}">
+                      <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div th:utext="#{__${successKey}__}"></div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                    </div>
+
+                    <div class="row row-cards">
 
                       <div class="col-sm-6 col-md-6">
                         <div class="mb-3">
                           <label class="form-label required">Name</label>
-                          <input type="text" class="form-control" placeholder="Project name" value="" required>
+                          <input type="text" class="form-control" placeholder="Enter project name" value="" required
+                                 th:field="*{name}"
+                                 th:errorclass="is-invalid">
+                          <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                            Please choose a username.
+                          </div>
                         </div>
                       </div>
                       <div class="col-sm-6 col-md-6">
@@ -85,16 +105,22 @@
                         </div>
                       </div>
 
-
                       <div class="col-md-12">
                         <div class="mb-3 mb-0">
-                          <label class="form-label">About Me</label>
-                          <textarea rows="5" class="form-control" placeholder="Here can be your description"
+                          <label class="form-label">Description</label>
+                          <textarea rows="5" class="form-control" placeholder="Enter description about the project"
+                                    th:field="*{description}"
+                                    th:errorclass="is-invalid"
                                     ></textarea>
+
+                          <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+                            Please choose a username.
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+
                   <div class="card-footer text-end">
                     <button type="submit" class="btn btn-primary">Save</button>
                   </div>
