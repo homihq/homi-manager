@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class CloudRegion {
     @Id
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -33,7 +33,6 @@ public class CloudRegion {
 
     @Column(name = "deleted")
     private boolean deleted;
-
 
     @LastModifiedDate
     @Column(name = "last_updated_date")

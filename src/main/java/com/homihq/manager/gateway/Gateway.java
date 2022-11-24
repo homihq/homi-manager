@@ -1,6 +1,9 @@
 package com.homihq.manager.gateway;
 
 
+import com.homihq.manager.cloud.CloudGatewayPlan;
+import com.homihq.manager.cloud.CloudProvider;
+import com.homihq.manager.cloud.CloudRegion;
 import com.homihq.manager.gateway.digitalocean.DigitalOceanSpec;
 import com.homihq.manager.project.domain.Project;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
@@ -49,16 +52,24 @@ public class Gateway {
     @JoinColumn(name = "project_id",referencedColumnName = "id")
     private Project project;
 
-
+    @Type(type = "jsonb")
     @Column(name = "cloud_provider")
-    private String cloudProvider;
+    private CloudProvider cloudProvider; //cannot be changed from UI after creation
 
+    @Type(type = "jsonb")
     @Column(name = "cloud_region")
-    private String cloudRegion;
+    private CloudRegion cloudRegion; //cannot be changed from UI after creation
+
+    @Type(type = "jsonb")
+    @Column(name = "cloud_gateway_plan")
+    private CloudGatewayPlan cloudGatewayPlan; //cannot be changed from UI after creation
 
     @Type(type = "jsonb")
     @Column(name = "digital_ocean_app_spec", columnDefinition = "jsonb")
     private DigitalOceanSpec digitalOceanSpec;
+
+    @Column(name = "digital_ocean_app_id")
+    private String digitalOceanAppId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -73,10 +84,11 @@ public class Gateway {
     private LocalDateTime createdDate;
 
     public enum GatewayStatus {
-
-        STARTING("Starting"),
+        CREATED("Created"),
+        PROVISIONED("Provisioned"),
         READY("Ready"),
-        DOWN("Down");
+        DOWN("Down"),
+        DELETED("Deleted");
 
         private final String value;
 

@@ -55,16 +55,22 @@ CREATE TABLE t_cloud_gateway_plan (
             currency_code varchar(10),
             currency_symbol varchar(2),
             currency_name varchar(50),
-            deleted boolean default false,
+            active boolean default true,
             created_date timestamptz NOT NULL default now(),
             last_updated_date timestamptz NOT NULL default now(),
             cloud_provider_id int NOT NULL,
+            spec_details varchar(100) NOT NULL,
+            description varchar(250),
             CONSTRAINT pk_t_cloud_gateway_plan PRIMARY KEY (id)
 );
 
 ALTER TABLE t_cloud_gateway_plan ADD CONSTRAINT fk_t_cloud_gateway_plan FOREIGN KEY (cloud_provider_id) REFERENCES t_cloud_provider(id);
 
-INSERT INTO t_cloud_gateway_plan (id, "name", price, currency_code, currency_symbol, currency_name, cloud_provider_id) VALUES (1, 'Dev', 100, 'USD', '$', 'United States Dollar', 1);
-INSERT INTO t_cloud_gateway_plan (id, "name", price, currency_code, currency_symbol, currency_name, cloud_provider_id) VALUES (2, 'Stage', 250, 'USD', '$', 'United States Dollar', 1);
-INSERT INTO t_cloud_gateway_plan (id, "name", price, currency_code, currency_symbol, currency_name, cloud_provider_id) VALUES (3, 'Production', 500, 'USD', '$', 'United States Dollar', 1);
-INSERT INTO t_cloud_gateway_plan (id, "name", price, currency_code, currency_symbol, currency_name, cloud_provider_id) VALUES (4, 'Enterprise', 0, 'USD', '$', 'United States Dollar', 1);
+INSERT INTO t_cloud_gateway_plan (id, "name", price, currency_code, currency_symbol, currency_name, cloud_provider_id, spec_details)
+    VALUES (1, 'Essentials', 100, 'USD', '$', 'United States Dollar', 1, '1GB RAM,1 vCPU');
+INSERT INTO t_cloud_gateway_plan (id, "name", price, currency_code, currency_symbol, currency_name, cloud_provider_id, spec_details)
+    VALUES (2, 'Standard', 250, 'USD', '$', 'United States Dollar', 1, '2GB RAM,1 vCPU * 2');
+INSERT INTO t_cloud_gateway_plan (id, "name", price, currency_code, currency_symbol, currency_name, cloud_provider_id, spec_details)
+    VALUES (3, 'Premium', 500, 'USD', '$', 'United States Dollar', 1, '4GB RAM,2 vCPU * 3');
+INSERT INTO t_cloud_gateway_plan (id, "name", price, currency_code, currency_symbol, currency_name, cloud_provider_id, spec_details, active)
+    VALUES (4, 'Custom', 0, 'USD', '$', 'United States Dollar', 1, '', false);

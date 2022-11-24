@@ -23,7 +23,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 public class CloudGatewayPlan {
     @Id
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -43,10 +43,16 @@ public class CloudGatewayPlan {
     private String currencySymbol;
 
     @Column(name = "currency_name")
-    private int currencyName;
+    private String currencyName;
 
-    @Column(name = "deleted")
-    private boolean deleted;
+    @Column(name = "active")
+    private boolean active;
+
+    @Column(name = "spec_details")
+    private String specDetails;
+
+    @Column(name = "description")
+    private String description;
 
 
     @LastModifiedDate

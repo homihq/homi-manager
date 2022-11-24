@@ -32,7 +32,7 @@
               <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
 
-                  <a href="/projects" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
+                  <a href="/gateways" class="btn btn-primary d-none d-sm-inline-block" >
                     <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-table" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -42,7 +42,7 @@
                     </svg>
                    View gateways
                   </a>
-                  <a href="/projects" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
+                  <a href="/projects" class="btn btn-primary d-sm-none btn-icon" aria-label="Create new report">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-table" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                       <rect x="4" y="4" width="16" height="16" rx="2"></rect>
@@ -67,7 +67,7 @@
             <div class="row row-cards">
 
               <div class="col-12">
-                <form class="card" th:action="@{/projects/save}"
+                <form class="card" th:action="@{/gateways/save}"
                       th:object="${createGatewayForm}" method="post"
                       autocomplete="off" novalidate>
                   <div class="card-body">
@@ -91,7 +91,7 @@
                       <div class="col-sm-6 col-md-6">
                         <div class="mb-3">
                           <label class="form-label required">Name</label>
-                          <input type="text" class="form-control" placeholder="Enter project name" value="" required
+                          <input type="text" class="form-control" placeholder="Enter gateway name" value="" required
                                  th:field="*{name}"
                                  th:errorclass="is-invalid">
                           <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
@@ -101,6 +101,69 @@
                       </div>
                       <div class="col-sm-6 col-md-6">
                         <div class="mb-3">
+                          <label class="form-label required">Project</label>
+
+                          <select th:field="*{projectId}" class="form-control" th:errorclass="is-invalid" placeholder="Select Project">
+                            <option th:each="i : ${projectList}" th:selected="${i.id == createGatewayForm.projectId}"
+                                    th:text="${i?.name}"
+                                    th:value="${i?.id}">
+                          </select>
+
+                          <div class="invalid-feedback" th:if="${#fields.hasErrors('projectId')}" th:errors="*{projectId}">
+                            Please choose a username.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4 col-md-4">
+                        <div class="mb-3">
+                          <label class="form-label required">Cloud Provider</label>
+
+                          <select th:field="*{cloudProviderId}" class="form-control" th:errorclass="is-invalid" placeholder="Select Cloud Provider">
+                            <option th:each="i : ${cloudProviderList}" th:selected="${i.id == createGatewayForm.cloudProviderId}"
+                                    th:text="${i?.name}"
+                                    th:value="${i?.id}">
+                          </select>
+
+                          <div class="invalid-feedback" th:if="${#fields.hasErrors('cloudProviderId')}" th:errors="*{cloudProviderId}">
+                            Please choose a username.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4 col-md-4">
+                        <div class="mb-3">
+
+                          <label class="form-label required">Region</label>
+
+                          <select th:field="*{cloudRegionId}" class="form-control" th:errorclass="is-invalid" placeholder="Select Cloud Provider">
+                            <option th:each="i : ${cloudRegionList}" th:selected="${i.id == createGatewayForm.cloudRegionId}"
+                                    th:text="${i?.name + '/' + i?.continent}"
+                                    th:value="${i?.id}">
+                          </select>
+
+                          <div class="invalid-feedback" th:if="${#fields.hasErrors('cloudRegionId')}" th:errors="*{cloudRegionId}">
+                            Please choose a username.
+                          </div>
+
+
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4 col-md-4">
+                        <div class="mb-3">
+
+                          <label class="form-label required">Plan</label>
+
+                          <select th:field="*{cloudGatewayPlanId}" class="form-control" th:errorclass="is-invalid" placeholder="Select Plan">
+                            <option th:each="i : ${cloudGatewayPlanList}" th:selected="${i.id == createGatewayForm.cloudRegionId}"
+                                    th:text="${i?.name + '-' + i?.specDetails}"
+                                    th:value="${i?.id}">
+                          </select>
+
+                          <div class="invalid-feedback" th:if="${#fields.hasErrors('cloudGatewayPlanId')}" th:errors="*{cloudGatewayPlanId}">
+                            Please choose a username.
+                          </div>
+
 
                         </div>
                       </div>
