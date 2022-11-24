@@ -40,8 +40,8 @@ logging:
     #org.hibernate.SQL: trace
     #org.hibernate.type.descriptor.sql.BasicBinder: info
     #sql: info
-    org.apache.http: DEBUG
-    httpclient.wire: DEBUG
+    # org.apache.http: DEBUG
+    # httpclient.wire: DEBUG
 
 
 aws:

@@ -1,7 +1,9 @@
 <!doctype html>
 
 <html lang="en">
-  <head th:replace="common/head :: head">
+  <head th:replace="common/head :: head( ~{::title})">
+    <title>HOMI - Create new gateway</title>
+  </head>
   <body >
     <script src="/js/demo-theme.min.js?1668287865"></script>
     <div class="page">
@@ -9,6 +11,7 @@
       <div th:replace="common/header :: header">
 
       </div>
+
       <div th:replace="common/navbar :: navbar">
 
       </div>
@@ -20,7 +23,7 @@
             <div class="row g-2 align-items-center">
               <div class="col">
                 <h2 class="page-title">
-                  Projects
+                  Create new Project
                 </h2>
               </div>
 
@@ -29,14 +32,23 @@
               <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
 
-                  <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
+                  <a href="/projects" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
                     <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                    Create new report
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-table" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                      <line x1="4" y1="10" x2="20" y2="10"></line>
+                      <line x1="10" y1="4" x2="10" y2="20"></line>
+                    </svg>
+                   View gateways
                   </a>
-                  <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
-                    <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                  <a href="/projects" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-table" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                      <line x1="4" y1="10" x2="20" y2="10"></line>
+                      <line x1="10" y1="4" x2="10" y2="20"></line>
+                    </svg>
                   </a>
                 </div>
               </div>
@@ -55,71 +67,62 @@
             <div class="row row-cards">
 
               <div class="col-12">
-                <form class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">Basic form</h3>
-                  </div>
+                <form class="card" th:action="@{/projects/save}"
+                      th:object="${createGatewayForm}" method="post"
+                      autocomplete="off" novalidate>
                   <div class="card-body">
-                    <div class="mb-3">
-                      <label class="form-label required">Email address</label>
-                      <div>
-                        <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
-                        <small class="form-hint">We'll never share your email with anyone else.</small>
+
+                    <div class="mb-3" th:if="${errorKey}">
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div th:utext="#{__${errorKey}__}"></div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                       </div>
                     </div>
-                    <div class="mb-3">
-                      <label class="form-label required">Password</label>
-                      <div>
-                        <input type="password" class="form-control" placeholder="Password">
-                        <small class="form-hint">
-                          Your password must be 8-20 characters long, contain letters and numbers, and must not contain
-                          spaces, special characters, or emoji.
-                        </small>
+
+                    <div class="mb-3" th:if="${successKey}">
+                      <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div th:utext="#{__${successKey}__}"></div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                       </div>
                     </div>
-                    <div class="mb-3">
-                      <label class="form-label">Select</label>
-                      <div>
-                        <select class="form-select">
-                          <option>Option 1</option>
-                          <optgroup label="Optgroup 1">
-                            <option>Option 1</option>
-                            <option>Option 2</option>
-                          </optgroup>
-                          <option>Option 2</option>
-                          <optgroup label="Optgroup 2">
-                            <option>Option 1</option>
-                            <option>Option 2</option>
-                          </optgroup>
-                          <optgroup label="Optgroup 3">
-                            <option>Option 1</option>
-                            <option>Option 2</option>
-                          </optgroup>
-                          <option>Option 3</option>
-                          <option>Option 4</option>
-                        </select>
+
+                    <div class="row row-cards">
+
+                      <div class="col-sm-6 col-md-6">
+                        <div class="mb-3">
+                          <label class="form-label required">Name</label>
+                          <input type="text" class="form-control" placeholder="Enter project name" value="" required
+                                 th:field="*{name}"
+                                 th:errorclass="is-invalid">
+                          <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                            Please choose a username.
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Checkboxes</label>
-                      <div>
-                        <label class="form-check">
-                          <input class="form-check-input" type="checkbox" checked>
-                          <span class="form-check-label">Option 1</span>
-                        </label>
-                        <label class="form-check">
-                          <input class="form-check-input" type="checkbox">
-                          <span class="form-check-label">Option 2</span>
-                        </label>
-                        <label class="form-check">
-                          <input class="form-check-input" type="checkbox" disabled>
-                          <span class="form-check-label">Option 3</span>
-                        </label>
+                      <div class="col-sm-6 col-md-6">
+                        <div class="mb-3">
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="mb-3 mb-0">
+                          <label class="form-label">Description</label>
+                          <textarea rows="5" class="form-control" placeholder="Enter description about the project"
+                                    th:field="*{description}"
+                                    th:errorclass="is-invalid"
+                                    ></textarea>
+
+                          <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+                            Please choose a username.
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+
                   <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                   </div>
                 </form>
               </div>
