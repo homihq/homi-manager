@@ -1,10 +1,7 @@
 package com.homihq.manager.cloud;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.PrettyPrinter;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
+import com.homihq.manager.gateway.digitalocean.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,8 +25,6 @@ public class DigitalOceanDeploymentManager implements CommandLineRunner {
 
     private final String digitalOceanUrl = "https://api.digitalocean.com/v2";
     private final String appObject = "/apps";
-
-    private final ObjectMapper objectMapper;
 
     @Value("${digitalocean.token}")
     private String apiKey;
@@ -81,7 +76,7 @@ public class DigitalOceanDeploymentManager implements CommandLineRunner {
 
         // create an instance of RestTemplate
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+        //restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
 
         // create headers
@@ -95,73 +90,18 @@ public class DigitalOceanDeploymentManager implements CommandLineRunner {
 
         headers.set("Authorization", "Bearer " + apiKey);
 
-        CreateGatewayRequest createGatewayRequest = new CreateGatewayRequest(appSpec, "bff15aad-6f5a-4d55-b690-736bea656633");
-        String val =
-        objectMapper.writeValueAsString(createGatewayRequest);
+        DigitalOceanSpec createGatewayRequest = new DigitalOceanSpec(appSpec, null,"bff15aad-6f5a-4d55-b690-736bea656633");
 
-        System.out.println(val);
+        HttpEntity<DigitalOceanSpec> entity = new HttpEntity<>(createGatewayRequest, headers);
 
-        HttpEntity<CreateGatewayRequest> entity = new HttpEntity<>(createGatewayRequest, headers);
-
-        ResponseEntity<String> result = restTemplate
-                .postForEntity(digitalOceanUrl + appObject, entity, String.class);
+        ResponseEntity<DigitalOceanSpec> result = restTemplate
+                .postForEntity(digitalOceanUrl + appObject, entity, DigitalOceanSpec.class);
 
         log.info("result - {}", result.getBody());
 
     }
 
-    @Data
-    @AllArgsConstructor
-    private static class CreateGatewayRequest {
-        @JsonProperty("spec")
-        private AppSpec appSpec;
-        @JsonProperty("project_id")
-        private String projectId;
-    }
-
-    @Data
-    private static class AppSpec {
-        private List<Domain> domains;
-        private String name;
-        private String region;
-        private List<Service> services;
 
 
-    }
 
-    @Data
-    private static class Domain {
-        private String domain;
-        private String type;
-
-    }
-
-    @Data
-    private static class Service {
-        @JsonProperty("http_port")
-        private long httpPort;
-        private Image image;
-        private long instanceCount;
-        @JsonProperty("instance_size_slug")
-        private String instanceSizeSlug;
-        private String name;
-        private List<Route> routes;
-
-    }
-
-    @Data
-    private static class Image {
-        private String registry;
-        @JsonProperty("registry_type")
-        private String registryType;
-        private String repository;
-        private String tag;
-
-    }
-
-    @Data
-    private static class Route {
-        private String path;
-
-    }
 }
