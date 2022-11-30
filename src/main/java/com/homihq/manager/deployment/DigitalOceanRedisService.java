@@ -1,11 +1,11 @@
 package com.homihq.manager.deployment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.homihq.manager.gateway.digitalocean.DigitalOceanSpec;
+import com.homihq.manager.cloud.digitalocean.DigitalOceanRedis;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -17,24 +17,24 @@ import java.util.Collections;
 
 @Slf4j
 @Component
-public class DigitalOceanRedisManager implements CommandLineRunner {
+@RequiredArgsConstructor
+class DigitalOceanRedisService {
 
     private final String digitalOceanUrl = "https://api.digitalocean.com/v2/databases";
 
-    @Value("${digitalocean.token}")
-    private String apiKey;
+    private final RestTemplate restTemplate;
 
-    public void create(
+    public DigitalOceanRedis create(
+            String doApiKey,
             String projectId,
             String name, int noOfNodes, String sizeSlug, String region) {
 
         log.info("Starting creation of redis");
 
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.set("Authorization", "Bearer " + apiKey);
+        headers.set("Authorization", "Bearer " + doApiKey);
 
 
         CreateRedisRequest createRedisRequest = new CreateRedisRequest();
@@ -45,23 +45,25 @@ public class DigitalOceanRedisManager implements CommandLineRunner {
         createRedisRequest.projectId = projectId;
 
         HttpEntity<CreateRedisRequest> entity = new HttpEntity<>(createRedisRequest, headers);
+        try {
+            ResponseEntity<CreateRedisResponse> result = restTemplate
+                    .postForEntity(digitalOceanUrl, entity, CreateRedisResponse.class);
 
-        ResponseEntity<String> result = restTemplate
-                .postForEntity(digitalOceanUrl, entity, String.class);
+            log.info("result - {}", result.getBody());
 
-        log.info("result - {}", result.getBody());
+            return result.getBody().getDigitalOceanRedis();
+        }
+        catch(Exception e) {
+            log.error("Error creating redis database - {}", e);
+            throw new RuntimeException("Failed to create Redis DB");
+        }
+
     }
 
     public void delete() {
 
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        create("bff15aad-6f5a-4d55-b690-736bea656633", "test-redis-4-gw-essentials", 1,
-                "db-s-1vcpu-1gb" , "nyc1"
-        );
-    }
 
     @Data
     private final class CreateRedisRequest{
@@ -76,8 +78,12 @@ public class DigitalOceanRedisManager implements CommandLineRunner {
         @JsonProperty("project_id")
         private String projectId;
 
+    }
 
-
+    @Data
+    @NoArgsConstructor
+    private static final class CreateRedisResponse {
+        private DigitalOceanRedis digitalOceanRedis;
     }
 
 

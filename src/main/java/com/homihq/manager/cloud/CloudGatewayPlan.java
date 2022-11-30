@@ -1,6 +1,5 @@
 package com.homihq.manager.cloud;
 
-import com.homihq.manager.gateway.digitalocean.DigitalOceanSpec;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

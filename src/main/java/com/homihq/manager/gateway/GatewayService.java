@@ -1,6 +1,8 @@
 package com.homihq.manager.gateway;
 
 import com.homihq.manager.cloud.*;
+import com.homihq.manager.core.event.EventPublisher;
+import com.homihq.manager.event.ProvisionGatewayEvent;
 import com.homihq.manager.project.domain.Project;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,8 @@ public class GatewayService {
     private final CloudProviderRepository cloudProviderRepository;
     private final CloudRegionRepository cloudRegionRepository;
     private final CloudGatewayPlanRepository cloudGatewayPlanRepository;
+
+    private final EventPublisher eventPublisher;
 
     @Transactional
     public Gateway save(CreateGatewayCommand createGatewayCommand) {
@@ -40,7 +44,11 @@ public class GatewayService {
         gateway.setStatus(Gateway.GatewayStatus.CREATED);
 
 
-        return this.gatewayRepository.save(gateway);
+        this.gatewayRepository.save(gateway);
+
+        eventPublisher.publish(ProvisionGatewayEvent.builder().gateway(gateway).build());
+
+        return gateway;
     }
 
     @Data

@@ -1,7 +1,7 @@
 package com.homihq.manager.cloud;
 
 
-import com.homihq.manager.gateway.digitalocean.*;
+import com.homihq.manager.cloud.digitalocean.DigitalOceanApp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,8 +10,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
@@ -41,38 +39,38 @@ public class DigitalOceanDeploymentManager implements CommandLineRunner {
     }
 
     private void provision(String cname, String projectName, String region) throws Exception{ //name == project name
-        Domain domain = new Domain();
-        domain.setDomain(cname);
-        domain.setType("PRIMARY");
 
-        List<Domain> domains = List.of(domain);
+        List<DigitalOceanApp.Domain> domains = List.of(DigitalOceanApp.Domain
+                .builder().domain(cname).type("PRIMARY")
+                .build());
+
+        DigitalOceanApp.Image image = DigitalOceanApp.Image.builder()
+        .registry("homihq").
+        registryType("DOCKER_HUB").
+        repository("micro-gateway").
+        tag("latest").build();
+
         String name = projectName + "-app";
 
-        AppSpec appSpec = new AppSpec();
-        appSpec.setDomains(domains);
-        appSpec.setName(name);
-        appSpec.setRegion(region);
 
 
-        Image image = new Image();
-        image.setRegistry("homihq");
-        image.setRegistryType("DOCKER_HUB");
-        image.setRepository("micro-gateway");
-        image.setTag("latest");
-
-        Route route = new Route();
-        route.setPath("/");
-
-        Service service = new Service();
-        service.setImage(image);
-        service.setHttpPort(8080);
-        service.setInstanceCount(1);
-        service.setName("homihq-gateway");
-        service.setInstanceSizeSlug("basic-xs"); //find the list of values here
-        service.setRoutes(List.of(route));
+        DigitalOceanApp.Service service =DigitalOceanApp.Service.builder().
+        image(image).
+        httpPort(8080).
+        instanceCount(1).
+        name("homihq-gateway").
+        instanceSizeSlug("basic-xs").
+        routes(
+                List.of(
+                        DigitalOceanApp.Route.builder().path("/").build()
+                )).build();
 
 
-        appSpec.setServices(List.of(service));
+        DigitalOceanApp.AppSpec appSpec = DigitalOceanApp.AppSpec.builder().
+                domains(domains).
+                name(name).services(List.of(service)).
+                region(region).build();
+
 
         // create an instance of RestTemplate
         RestTemplate restTemplate = new RestTemplate();
@@ -90,12 +88,12 @@ public class DigitalOceanDeploymentManager implements CommandLineRunner {
 
         headers.set("Authorization", "Bearer " + apiKey);
 
-        DigitalOceanSpec createGatewayRequest = new DigitalOceanSpec(appSpec, null,"bff15aad-6f5a-4d55-b690-736bea656633");
+        DigitalOceanApp createGatewayRequest = new DigitalOceanApp(appSpec, null,"bff15aad-6f5a-4d55-b690-736bea656633");
 
-        HttpEntity<DigitalOceanSpec> entity = new HttpEntity<>(createGatewayRequest, headers);
+        HttpEntity<DigitalOceanApp> entity = new HttpEntity<>(createGatewayRequest, headers);
 
-        ResponseEntity<DigitalOceanSpec> result = restTemplate
-                .postForEntity(digitalOceanUrl + appObject, entity, DigitalOceanSpec.class);
+        ResponseEntity<DigitalOceanApp> result = restTemplate
+                .postForEntity(digitalOceanUrl + appObject, entity, DigitalOceanApp.class);
 
         log.info("result - {}", result.getBody());
 

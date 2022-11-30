@@ -1,6 +1,10 @@
 package com.homihq.manager.deployment;
 
-public class DigitalOceanGatewayManager {
+
+import org.springframework.stereotype.Component;
+
+@Component
+class DigitalOceanAppService {
 
     public void create() {
 
