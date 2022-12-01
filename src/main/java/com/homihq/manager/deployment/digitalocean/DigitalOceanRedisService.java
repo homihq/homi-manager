@@ -1,7 +1,8 @@
-package com.homihq.manager.deployment;
+package com.homihq.manager.deployment.digitalocean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.homihq.manager.cloud.digitalocean.DigitalOceanRedis;
+import com.homihq.manager.deployment.DeploymentException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,7 @@ class DigitalOceanRedisService {
         }
         catch(Exception e) {
             log.error("Error creating redis database - {}", e);
-            throw new RuntimeException("Failed to create Redis DB");
+            throw new DeploymentException("Failed to create Redis DB", e);
         }
 
     }

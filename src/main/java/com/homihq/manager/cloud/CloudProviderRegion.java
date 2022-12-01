@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "t_cloud_region")
 @EntityListeners(AuditingEntityListener.class)
-public class CloudRegion {
+public class CloudProviderRegion {
     @Id
     private Long id;
 
