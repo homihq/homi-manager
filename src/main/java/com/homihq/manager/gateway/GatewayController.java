@@ -65,11 +65,11 @@ public class GatewayController {
 
     }
     @GetMapping("/new")
-    public String showNewProject(Model model) {
+    public String createNewGateway(Model model) {
         model.addAttribute(new CreateGatewayForm());
         //model.addAttribute(this.cloudProviderRegionRepository.findAllByActive(true));
-        model.addAttribute(this.cloudProviderRegionRepository.findAll());
-        model.addAttribute(this.projectRepository.findAll()); //TODO filter by user role and project where user is admin
+        //model.addAttribute(this.cloudProviderRegionRepository.findAll());
+        //model.addAttribute(this.projectRepository.findAll()); //TODO filter by user role and project where user is admin
         model.addAttribute(cloudGatewayPlanRepository.findAllByActive(true));
         return "gateways/new";
     }

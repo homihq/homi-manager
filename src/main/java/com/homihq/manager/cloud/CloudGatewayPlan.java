@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Currency;
 import java.util.List;
 
 @NoArgsConstructor
@@ -35,14 +36,7 @@ public class CloudGatewayPlan {
     @Column(name = "price")
     private int price;
 
-    @Column(name = "currency_code")
-    private String currencyCode;
-
-    @Column(name = "currency_symbol")
-    private String currencySymbol;
-
-    @Column(name = "currency_name")
-    private String currencyName;
+    private Currency currency;
 
     @Column(name = "active")
     private boolean active;

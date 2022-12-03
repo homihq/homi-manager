@@ -89,6 +89,12 @@ INSERT INTO t_cloud_gateway_plan (id, "name", price_monthly, currency_code, clou
 INSERT INTO t_cloud_gateway_plan (id, "name", price_monthly, currency_code, cloud_provider_id )
     VALUES (2, 'Standard', 250, 'USD', 1);
 
+
+
+
+
+
+
 INSERT INTO t_cloud_gateway_plan (id, "name", price_monthly, currency_code, cloud_provider_id )
     VALUES (3, 'Premium', 500, 'USD', 1);
 
