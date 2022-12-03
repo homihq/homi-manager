@@ -17,9 +17,9 @@ public class GatewayService {
 
     private final GatewayRepository gatewayRepository;
 
-    private final CloudProviderRegionRepository cloudProviderRegionRepository;
-    private final CloudGatewayPlanRepository cloudGatewayPlanRepository;
-    private final CloudProviderRepository cloudProviderRepository;
+    private final RegionRepository regionRepository;
+    private final GatewayProductRepository gatewayProductRepository;
+    private final CloudRepository cloudRepository;
     private final EventPublisher eventPublisher;
 
     @Transactional
@@ -35,10 +35,10 @@ public class GatewayService {
         //gateway.setCloudProvider(cloudProvider);
 
         //cloud region
-        CloudProviderRegion cloudProviderRegion = this.cloudProviderRegionRepository.findById(createGatewayCommand.cloudRegionId).get();
-        gateway.setCloudProviderRegion(cloudProviderRegion);
+        Region region = this.regionRepository.findById(createGatewayCommand.cloudRegionId).get();
+        gateway.setRegion(region);
 
-        CloudGatewayPlan cloudGatewayPlan = this.cloudGatewayPlanRepository.findById(createGatewayCommand.cloudGatewayPlanId).get();
+        Product cloudGatewayPlan = this.gatewayProductRepository.findById(createGatewayCommand.cloudGatewayPlanId).get();
         gateway.setCloudGatewayPlan(cloudGatewayPlan);
         gateway.setStatus(Gateway.GatewayStatus.CREATED);
 

@@ -1,4 +1,4 @@
-package com.homihq.manager.cloud;
+package com.homihq.manager.cloud.digitalocean;
 
 
 import com.homihq.manager.cloud.digitalocean.DigitalOceanApp;

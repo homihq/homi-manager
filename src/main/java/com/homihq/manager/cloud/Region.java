@@ -16,21 +16,23 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @Entity
-@Table(name = "t_cloud_provider")
+@Table(name = "t_region")
 @EntityListeners(AuditingEntityListener.class)
-public class CloudProvider {
+public class Region {
     @Id
     private Long id;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "serial_no")
-    private int serialNo;
+    @Column(name = "val")
+    private String val;
 
-    @Column(name = "active")
-    private boolean active;
+    @Column(name = "continent")
+    private String continent;
 
+    @Column(name = "deleted")
+    private boolean deleted;
 
     @LastModifiedDate
     @Column(name = "last_updated_date")
@@ -39,4 +41,8 @@ public class CloudProvider {
     @CreatedDate
     @Column(name = "created_date")
     private LocalDateTime createdDate;
+
+    @OneToOne
+    @JoinColumn(name="cloud_id" , referencedColumnName = "id")
+    private Cloud cloud;
 }

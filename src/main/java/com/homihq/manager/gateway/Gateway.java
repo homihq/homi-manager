@@ -1,9 +1,9 @@
 package com.homihq.manager.gateway;
 
 
-import com.homihq.manager.cloud.CloudGatewayPlan;
-import com.homihq.manager.cloud.CloudProvider;
-import com.homihq.manager.cloud.CloudProviderRegion;
+import com.homihq.manager.cloud.Product;
+import com.homihq.manager.cloud.Cloud;
+import com.homihq.manager.cloud.Region;
 import com.homihq.manager.cloud.digitalocean.DigitalOceanApp;
 import com.homihq.manager.project.domain.Project;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
@@ -54,15 +54,15 @@ public class Gateway {
 
     @Type(type = "jsonb")
     @Column(name = "cloud_provider")
-    private CloudProvider cloudProvider; //cannot be changed from UI after creation
+    private Cloud cloud; //cannot be changed from UI after creation
 
     @Type(type = "jsonb")
     @Column(name = "cloud_region")
-    private CloudProviderRegion cloudProviderRegion; //cannot be changed from UI after creation
+    private Region region; //cannot be changed from UI after creation
 
     @Type(type = "jsonb")
     @Column(name = "cloud_gateway_plan")
-    private CloudGatewayPlan cloudGatewayPlan; //cannot be changed from UI after creation
+    private Product cloudGatewayPlan; //cannot be changed from UI after creation
 
     @Type(type = "jsonb")
     @Column(name = "digital_ocean_app_spec", columnDefinition = "jsonb")

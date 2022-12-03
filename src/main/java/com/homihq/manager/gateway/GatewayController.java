@@ -1,7 +1,7 @@
 package com.homihq.manager.gateway;
 
-import com.homihq.manager.cloud.CloudGatewayPlanRepository;
-import com.homihq.manager.cloud.CloudProviderRegionRepository;
+import com.homihq.manager.cloud.GatewayProductRepository;
+import com.homihq.manager.cloud.RegionRepository;
 import com.homihq.manager.project.repository.ProjectRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +24,10 @@ import javax.validation.constraints.Positive;
 @RequestMapping("/gateways")
 public class GatewayController {
 
-    private final CloudProviderRegionRepository cloudProviderRegionRepository;
+    private final RegionRepository regionRepository;
 
     private final ProjectRepository projectRepository;
-    private final CloudGatewayPlanRepository cloudGatewayPlanRepository;
+    private final GatewayProductRepository gatewayProductRepository;
     private final GatewayService gatewayService;
 
     private final ModelMapper modelMapper;
@@ -48,17 +48,17 @@ public class GatewayController {
             log.info("Form validation error");
             model.addAttribute("errorKey", "gateway.save.failed");
             //model.addAttribute(this.cloudProviderRegionRepository.findAllByActive(true));
-            model.addAttribute(this.cloudProviderRegionRepository.findAll());
+            model.addAttribute(this.regionRepository.findAll());
             model.addAttribute(this.projectRepository.findAll()); //TODO filter by user role and project where user is admin
-            model.addAttribute(cloudGatewayPlanRepository.findAllByActive(true));
+            model.addAttribute(gatewayProductRepository.findAllByActive(true));
             return "gateways/new";
         }
 
         this.gatewayService.save(modelMapper.map(createGatewayForm, GatewayService.CreateGatewayCommand.class));
         //model.addAttribute(this.cloudProviderRegionRepository.findAllByActive(true));
-        model.addAttribute(this.cloudProviderRegionRepository.findAll());
+        model.addAttribute(this.regionRepository.findAll());
         model.addAttribute(this.projectRepository.findAll()); //TODO filter by user role and project where user is admin
-        model.addAttribute(cloudGatewayPlanRepository.findAllByActive(true));
+        model.addAttribute(gatewayProductRepository.findAllByActive(true));
         model.addAttribute("successKey", "gateway.save.success");
 
         return "gateways/new";
@@ -70,7 +70,7 @@ public class GatewayController {
         //model.addAttribute(this.cloudProviderRegionRepository.findAllByActive(true));
         //model.addAttribute(this.cloudProviderRegionRepository.findAll());
         //model.addAttribute(this.projectRepository.findAll()); //TODO filter by user role and project where user is admin
-        model.addAttribute(cloudGatewayPlanRepository.findAllByActive(true));
+        model.addAttribute(gatewayProductRepository.findAllByActive(true));
         return "gateways/new";
     }
 
