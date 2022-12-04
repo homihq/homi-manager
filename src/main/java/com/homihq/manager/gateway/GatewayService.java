@@ -34,7 +34,9 @@ public class GatewayService {
         gateway.setRegion(region);
 
 
-        gateway.setStatus(Gateway.GatewayStatus.CREATED);
+
+
+        gateway.setStatus(Gateway.Status.CREATED);
 
 
         this.gatewayRepository.save(gateway);

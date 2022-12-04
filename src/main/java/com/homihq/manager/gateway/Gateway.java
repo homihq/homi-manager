@@ -32,6 +32,8 @@ import java.time.LocalDateTime;
 })
 
 public class Gateway {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,21 +47,41 @@ public class Gateway {
     @Column(name = "deleted")
     private boolean deleted;
 
+    @Column(name = "do_project_id")
+    private String doProjectId;
 
-    @OneToOne
-    @JoinColumn(name = "region_id", referencedColumnName = "id")
-    private Region region;
+    @Column(name = "do_api_token")
+    private String doApiToken;
 
     @Type(type = "jsonb")
-    @Column(name = "digital_ocean_app_spec", columnDefinition = "jsonb")
-    private DigitalOceanApp digitalOceanApp;
+    @Column(name = "do_app_spec", columnDefinition = "jsonb")
+    private DigitalOceanApp doAppSpec;
 
-    @Column(name = "digital_ocean_app_id")
-    private String digitalOceanAppId;
+    @Type(type = "jsonb")
+    @Column(name = "do_redis_spec", columnDefinition = "jsonb")
+    private DigitalOceanApp doRedisSpec;
+
+    @Column(name = "do_app_id")
+    private String doAppId;
+
+    @Column(name = "do_db_id")
+    private String doDbId;
+
+    @Type(type = "jsonb")
+    @Column(name = "do_redis_spec", columnDefinition = "jsonb")
+    private Region region;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "do_redis_status")
+    private Status redisStatus;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "do_app_status")
+    private Status appStatus;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private GatewayStatus status;
+    private Status status;
 
     @LastModifiedDate
     @Column(name = "last_updated_date")
@@ -69,7 +91,19 @@ public class Gateway {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
-    public enum GatewayStatus {
+    @Column(name = "container_id")
+    private Integer containerId;
+
+    @Column(name = "db_id")
+    private Integer dbId;
+
+    @Column(name = "no_of_container_instances")
+    private Integer containerCount;
+
+    @Column(name = "db_standby")
+    private boolean dbStandBy;
+
+    public enum Status {
         CREATED("Created"),
         PROVISIONED("Provisioned"),
         READY("Ready"),
@@ -78,7 +112,7 @@ public class Gateway {
 
         private final String value;
 
-        GatewayStatus(String value) {
+        Status(String value) {
             this.value = value;
         }
 
