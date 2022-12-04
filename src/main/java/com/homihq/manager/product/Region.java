@@ -1,4 +1,4 @@
-package com.homihq.manager.cloud;
+package com.homihq.manager.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class Region {
     @Id
-    private Long id;
+    private Integer id;
 
     @Column(name = "datacenter")
     private String dataCenter;

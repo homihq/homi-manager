@@ -1,7 +1,7 @@
 package com.homihq.manager.deployment.digitalocean;
 
 
-import com.homihq.manager.cloud.digitalocean.DigitalOceanApp;
+import com.homihq.manager.digitalocean.DigitalOceanApp;
 import com.homihq.manager.deployment.DeploymentException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -11,7 +11,7 @@ CREATE TABLE t_gateway (
 	deleted boolean default false,
 	project_id int not null,
     cloud_provider jsonb,
-    cloud_region jsonb,
+    region_id int NOT NULL,
     cloud_gateway_plan jsonb,
     digital_ocean_app_spec jsonb,
     digital_ocean_app_id varchar(100),
@@ -21,3 +21,5 @@ CREATE TABLE t_gateway (
 	CONSTRAINT pk_t_gateway_id PRIMARY KEY (id)
 
 );
+
+ALTER TABLE t_gateway ADD CONSTRAINT t_gateway_fk_region_id FOREIGN KEY (region_id) REFERENCES t_region(id);

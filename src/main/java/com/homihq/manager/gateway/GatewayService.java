@@ -1,6 +1,6 @@
 package com.homihq.manager.gateway;
 
-import com.homihq.manager.cloud.*;
+import com.homihq.manager.product.*;
 import com.homihq.manager.core.event.EventPublisher;
 import com.homihq.manager.event.ProvisionGatewayEvent;
 import lombok.Data;
@@ -29,12 +29,8 @@ public class GatewayService {
         gateway.setDeleted(false);
 
 
-        //cloud provider
-        //CloudProvider cloudProvider = this.cloudProviderRegionRepository.findById(createGatewayCommand.cloudProviderId).get();
-        //gateway.setCloudProvider(cloudProvider);
-
-        //cloud region
-        Region region = this.regionRepository.findById(createGatewayCommand.cloudRegionId).get();
+        //region
+        Region region = this.regionRepository.findById(createGatewayCommand.regionId).get();
         gateway.setRegion(region);
 
 
@@ -53,9 +49,20 @@ public class GatewayService {
 
         private String name;
         private String description;
-        private Long cloudProviderId;
-        private Long cloudRegionId;
-        private Long cloudGatewayPlanId;
+
+        private Integer regionId;
+
+        private Integer dbId;
+
+        private boolean standbyInstance;
+
+        private Integer containerId;
+
+        private int noOfInstances = 1;
+
+        private String doProjectId;
+
+        private String doTokenId;
 
     }
 }

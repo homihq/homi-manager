@@ -1,8 +1,6 @@
 package com.homihq.manager.deployment.digitalocean;
 
-import com.homihq.manager.cloud.digitalocean.DigitalOceanRedis;
-import com.homihq.manager.deployment.digitalocean.DigitalOceanAppService;
-import com.homihq.manager.deployment.digitalocean.DigitalOceanRedisService;
+import com.homihq.manager.digitalocean.DigitalOceanRedis;
 import com.homihq.manager.event.ProvisionGatewayEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

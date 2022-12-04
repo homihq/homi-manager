@@ -1,4 +1,4 @@
-package com.homihq.manager.cloud;
+package com.homihq.manager.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,9 +22,9 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 public class Product {
     @Id
-    private Long id;
+    private Integer id;
 
-    @Column(name = "product_type")
+    @Column(name = "name")
     private String name;
 
     @Column(name = "deleted")

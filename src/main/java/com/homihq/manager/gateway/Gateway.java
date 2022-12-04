@@ -1,8 +1,8 @@
 package com.homihq.manager.gateway;
 
 
-import com.homihq.manager.cloud.Region;
-import com.homihq.manager.cloud.digitalocean.DigitalOceanApp;
+import com.homihq.manager.product.Region;
+import com.homihq.manager.digitalocean.DigitalOceanApp;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,9 +46,9 @@ public class Gateway {
     private boolean deleted;
 
 
-    @Type(type = "jsonb")
-    @Column(name = "cloud_region")
-    private Region region; //cannot be changed from UI after creation
+    @OneToOne
+    @JoinColumn(name = "region_id", referencedColumnName = "id")
+    private Region region;
 
     @Type(type = "jsonb")
     @Column(name = "digital_ocean_app_spec", columnDefinition = "jsonb")

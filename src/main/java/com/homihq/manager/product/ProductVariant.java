@@ -1,4 +1,4 @@
-package com.homihq.manager.cloud;
+package com.homihq.manager.product;
 
 import com.vladmihalcea.hibernate.type.money.MonetaryAmountType;
 import lombok.AllArgsConstructor;
@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
 )
 public class ProductVariant {
     @Id
-    private Long id;
+    private Integer id;
 
     @Column(name = "description")
     private String description;
@@ -51,12 +51,6 @@ public class ProductVariant {
     })
     private MonetaryAmount monthlyPrice;
 
-    @Type(type = "monetaryAmount")
-    @Columns(columns = {
-            @Column(name = "price_amount_hourly"),
-            @Column(name = "price_currency_hourly")
-    })
-    private MonetaryAmount hourlyPrice;
 
     @LastModifiedDate
     @Column(name = "last_updated_date")

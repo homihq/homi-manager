@@ -1,7 +1,6 @@
-package com.homihq.manager.cloud.digitalocean;
+package com.homihq.manager.digitalocean;
 
 
-import com.homihq.manager.cloud.digitalocean.DigitalOceanApp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
