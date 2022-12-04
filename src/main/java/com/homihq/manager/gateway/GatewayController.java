@@ -1,6 +1,5 @@
 package com.homihq.manager.gateway;
 
-import com.homihq.manager.cloud.GatewayProductRepository;
 import com.homihq.manager.cloud.RegionRepository;
 import com.homihq.manager.project.repository.ProjectRepository;
 import lombok.Data;
@@ -27,7 +26,6 @@ public class GatewayController {
     private final RegionRepository regionRepository;
 
     private final ProjectRepository projectRepository;
-    private final GatewayProductRepository gatewayProductRepository;
     private final GatewayService gatewayService;
 
     private final ModelMapper modelMapper;
@@ -50,7 +48,7 @@ public class GatewayController {
             //model.addAttribute(this.cloudProviderRegionRepository.findAllByActive(true));
             model.addAttribute(this.regionRepository.findAll());
             model.addAttribute(this.projectRepository.findAll()); //TODO filter by user role and project where user is admin
-            model.addAttribute(gatewayProductRepository.findAllByActive(true));
+
             return "gateways/new";
         }
 
@@ -58,19 +56,19 @@ public class GatewayController {
         //model.addAttribute(this.cloudProviderRegionRepository.findAllByActive(true));
         model.addAttribute(this.regionRepository.findAll());
         model.addAttribute(this.projectRepository.findAll()); //TODO filter by user role and project where user is admin
-        model.addAttribute(gatewayProductRepository.findAllByActive(true));
         model.addAttribute("successKey", "gateway.save.success");
 
         return "gateways/new";
 
     }
     @GetMapping("/new")
-    public String createNewGateway(Model model) {
+    public String createNewGateway(
+            Model model) {
         model.addAttribute(new CreateGatewayForm());
-        //model.addAttribute(this.cloudProviderRegionRepository.findAllByActive(true));
+        model.addAttribute(this.regionRepository.findAll());
         //model.addAttribute(this.cloudProviderRegionRepository.findAll());
         //model.addAttribute(this.projectRepository.findAll()); //TODO filter by user role and project where user is admin
-        model.addAttribute(gatewayProductRepository.findAllByActive(true));
+        //model.addAttribute(gatewayProductRepository.findAllByActive(true));
         return "gateways/new";
     }
 
@@ -79,15 +77,10 @@ public class GatewayController {
         @NotBlank(message = "Name is required")
         private String name;
         private String description;
-        @Positive(message = "Cloud service provider is required")
-        private Long cloudProviderId;
-        @Positive(message = "Cloud region is required")
-        private Integer cloudRegionId;
-        @Positive(message = "Project is required")
-        private Long projectId;
 
-        @Positive(message = "Plan is required")
-        private Long cloudGatewayPlanId;
+        @Positive(message = "Region is required")
+        private Integer regionId;
+
 
     }
 }

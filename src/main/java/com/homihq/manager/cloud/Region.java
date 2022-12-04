@@ -22,14 +22,17 @@ public class Region {
     @Id
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "datacenter")
+    private String dataCenter;
 
-    @Column(name = "val")
-    private String val;
+    @Column(name = "region")
+    private String region;
 
     @Column(name = "continent")
     private String continent;
+
+    @Column(name = "slug")
+    private String slug;
 
     @Column(name = "deleted")
     private boolean deleted;
@@ -42,7 +45,4 @@ public class Region {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
-    @OneToOne
-    @JoinColumn(name="cloud_id" , referencedColumnName = "id")
-    private Cloud cloud;
 }

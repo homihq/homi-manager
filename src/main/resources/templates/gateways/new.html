@@ -91,7 +91,7 @@
                       <div class="col-sm-6 col-md-6">
                         <div class="mb-3">
                           <label class="form-label required">Name</label>
-                          <input type="text" class="form-control" placeholder="Enter gateway name" value="" required
+                          <input type="text" class="form-control" placeholder="Enter gateway name" required
                                  th:field="*{name}"
                                  th:errorclass="is-invalid">
                           <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
@@ -99,41 +99,31 @@
                           </div>
                         </div>
                       </div>
+
                       <div class="col-sm-6 col-md-6">
                         <div class="mb-3">
-                          <label class="form-label required">Project</label>
+                          <label class="form-label required">DigitalOcean Region</label>
 
-                          <select th:field="*{projectId}" class="form-control" th:errorclass="is-invalid" placeholder="Select Project">
-                            <option th:each="i : ${projectList}" th:selected="${i.id == createGatewayForm.projectId}"
-                                    th:text="${i?.name}"
+                          <select th:field="*{regionId}" class="form-control" th:errorclass="is-invalid" placeholder="Select Region">
+                            <option th:each="i : ${regionList}" th:selected="${i.id == createGatewayForm.regionId}"
+                                    th:text="${i?.dataCenter + '-'+ i?.region + '-' +i?.continent}"
                                     th:value="${i?.id}">
                           </select>
 
-                          <div class="invalid-feedback" th:if="${#fields.hasErrors('projectId')}" th:errors="*{projectId}">
+                          <small class="form-hint">
+                            Region is a DigitalOcean datacenter. Select one that is closest to your API services.
+                          </small>
+
+                          <div class="invalid-feedback" th:if="${#fields.hasErrors('regionId')}" th:errors="*{regionId}">
                             Please choose a username.
                           </div>
                         </div>
                       </div>
 
-                      <div class="col-sm-4 col-md-4">
-                        <div class="mb-3">
-                          <label class="form-label required">Cloud Provider</label>
-
-                          <select th:field="*{cloudProviderId}" class="form-control" th:errorclass="is-invalid" placeholder="Select Cloud Provider">
-                            <option th:each="i : ${cloudProviderList}" th:selected="${i.id == createGatewayForm.cloudProviderId}"
-                                    th:text="${i?.name}"
-                                    th:value="${i?.id}">
-                          </select>
-
-                          <div class="invalid-feedback" th:if="${#fields.hasErrors('cloudProviderId')}" th:errors="*{cloudProviderId}">
-                            Please choose a username.
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-4 col-md-4">
+                      <div class="col-sm-6 col-md-6">
                         <div class="mb-3">
 
-                          <label class="form-label required">Region</label>
+                          <label class="form-label required">Cache</label>
 
                           <select th:field="*{cloudRegionId}" class="form-control" th:errorclass="is-invalid" placeholder="Select Cloud Provider">
                             <option th:each="i : ${cloudRegionList}" th:selected="${i.id == createGatewayForm.cloudRegionId}"
@@ -149,17 +139,17 @@
                         </div>
                       </div>
 
-                      <div class="col-sm-4 col-md-4">
+                      <div class="col-sm-6 col-md-6">
                         <div class="mb-3">
 
                           <label class="form-label required">Plan</label>
-
+                          <!--
                           <select th:field="*{cloudGatewayPlanId}" class="form-control" th:errorclass="is-invalid" placeholder="Select Plan">
                             <option th:each="i : ${cloudGatewayPlanList}" th:selected="${i.id == createGatewayForm.cloudRegionId}"
                                     th:text="${i?.name + '-' + i?.specDetails}"
                                     th:value="${i?.id}">
                           </select>
-
+                          -->
                           <div class="invalid-feedback" th:if="${#fields.hasErrors('cloudGatewayPlanId')}" th:errors="*{cloudGatewayPlanId}">
                             Please choose a username.
                           </div>

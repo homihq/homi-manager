@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Currency;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -25,28 +24,11 @@ public class Product {
     @Id
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "product_type")
     private String name;
 
-    @Type(type = "jsonb")
-    @Column(name = "features", columnDefinition = "jsonb")
-    private List<String> features;
-
-
-    @Column(name = "price")
-    private int price;
-
-    private Currency currency;
-
-    @Column(name = "active")
-    private boolean active;
-
-    @Column(name = "spec_details")
-    private String specDetails;
-
-    @Column(name = "description")
-    private String description;
-
+    @Column(name = "deleted")
+    private boolean deleted;
 
     @LastModifiedDate
     @Column(name = "last_updated_date")
@@ -56,7 +38,19 @@ public class Product {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
-    @OneToOne
-    @JoinColumn(name="cloud_id" , referencedColumnName = "id")
-    private Cloud cloud;
+
+    @OneToMany(
+            mappedBy = "product",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<ProductVariant> variants = new ArrayList<>();
+
+    public Product addVariant(ProductVariant variant) {
+        variants.add(variant);
+        variant.setProduct(this);
+        return this;
+    }
+
+
 }
