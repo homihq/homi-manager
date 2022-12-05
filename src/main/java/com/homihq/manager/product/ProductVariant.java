@@ -44,6 +44,9 @@ public class ProductVariant {
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
+    @Column(name = "slug")
+    private String slug;
+
     @Type(type = "monetaryAmount")
     @Columns(columns = {
             @Column(name = "price_amount_monthly"),

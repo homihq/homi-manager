@@ -1,14 +1,14 @@
 package com.homihq.manager.gateway.deployment.digitalocean;
 
-import com.homihq.manager.gateway.Gateway;
-import com.homihq.manager.gateway.GatewayRepository;
+import com.homihq.manager.gateway.event.CreateGatewayOrderEvent;
+import com.homihq.manager.product.ProductVariant;
+import com.homihq.manager.product.ProductVariantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -18,25 +18,23 @@ class DigitalOceanProvisioningManager {
     private final DigitalOceanAppService digitalOceanAppService;
     private final DigitalOceanRedisService digitalOceanRedisService;
 
-    private final GatewayRepository gatewayRepository;
 
+    @EventListener
+    @Async
+    public void handle(CreateGatewayOrderEvent createGatewayOrderEvent) {
 
-    public void handle() {
+        log.info("Starting provisioning gateway");
 
-        log.info("Starting provisioning scheduler");
-
-        //1. find all gateways where redis status = submitted
-        Page<Gateway> gatewayPage =
-        gatewayRepository.findByRedisStatus(Gateway.Status.SUBMITTED, PageRequest.of(0, 10));
-
-        if(!gatewayPage.isEmpty()) {
-            //start creating these redis databases
-            List<Gateway> gateways = gatewayPage.getContent();
-            log.info("Gateways - {}", gateways);
-        }
 
         //1. create redis database
-
+        digitalOceanRedisService.create(
+                createGatewayOrderEvent.getGateway().getDoApiToken(),
+                createGatewayOrderEvent.getGateway().getDoProjectId(),
+                createGatewayOrderEvent.getGateway().getName() + "-" + createGatewayOrderEvent.getGateway().getId(),
+                createGatewayOrderEvent.getGateway().isDbStandBy() ? 2 : 1,
+                createGatewayOrderEvent.getDb().getSlug(),
+                createGatewayOrderEvent.getGateway().getRegion().getSlug()
+        );
 
 
         //2. create app service

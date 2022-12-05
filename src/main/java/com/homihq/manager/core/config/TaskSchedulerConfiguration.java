@@ -16,7 +16,7 @@ public class TaskSchedulerConfiguration {
         return threadPoolTaskScheduler;
     }
 
-    @Bean
+    @Bean //Propagates spring security context in async tasks
     public DelegatingSecurityContextAsyncTaskExecutor taskExecutor() {
         return new DelegatingSecurityContextAsyncTaskExecutor(threadPoolTaskScheduler());
     }

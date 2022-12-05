@@ -1,5 +1,6 @@
 package com.homihq.manager.gateway;
 
+import com.homihq.manager.gateway.event.CreateGatewayOrderEvent;
 import com.homihq.manager.product.*;
 import com.homihq.manager.core.event.EventPublisher;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class GatewayService {
     private final GatewayRepository gatewayRepository;
 
     private final RegionRepository regionRepository;
-
+    private final ProductVariantRepository productVariantRepository;
 
     private final EventPublisher eventPublisher;
 
@@ -45,6 +46,11 @@ public class GatewayService {
         gateway.setDbStandBy(createGatewayCommand.standbyInstance);
 
         this.gatewayRepository.save(gateway);
+
+        ProductVariant db = this.productVariantRepository.getReferenceById(createGatewayCommand.dbId);
+
+        this.eventPublisher.publish(CreateGatewayOrderEvent.builder().gateway(gateway).db(db)
+                .build());
 
         return gateway;
     }

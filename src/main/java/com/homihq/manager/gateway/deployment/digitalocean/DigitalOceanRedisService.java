@@ -26,7 +26,7 @@ class DigitalOceanRedisService {
 
     public DigitalOceanRedis create(
             String doApiKey,
-            String projectId,
+            String doProjectId,
             String name, int noOfNodes, String sizeSlug, String region) {
 
         log.info("Starting creation of redis");
@@ -42,7 +42,7 @@ class DigitalOceanRedisService {
         createRedisRequest.numNodes = noOfNodes;
         createRedisRequest.size = sizeSlug;
         createRedisRequest.region = region;
-        createRedisRequest.projectId = projectId;
+        createRedisRequest.projectId = doProjectId;
 
         HttpEntity<CreateRedisRequest> entity = new HttpEntity<>(createRedisRequest, headers);
         try {
