@@ -2,7 +2,6 @@ package com.homihq.manager.gateway;
 
 import com.homihq.manager.product.*;
 import com.homihq.manager.core.event.EventPublisher;
-import com.homihq.manager.event.ProvisionGatewayEvent;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,15 +32,19 @@ public class GatewayService {
         Region region = this.regionRepository.findById(createGatewayCommand.regionId).get();
         gateway.setRegion(region);
 
+        gateway.setDoApiToken(createGatewayCommand.doTokenId);
+        gateway.setDoProjectId(createGatewayCommand.doProjectId);
 
+        gateway.setRedisStatus(Gateway.Status.SUBMITTED);
+        gateway.setAppStatus(Gateway.Status.SUBMITTED);
+        gateway.setStatus(Gateway.Status.SUBMITTED);
 
-
-        gateway.setStatus(Gateway.Status.CREATED);
-
+        gateway.setContainerId(createGatewayCommand.containerId);
+        gateway.setContainerCount(createGatewayCommand.noOfInstances);
+        gateway.setDbId(createGatewayCommand.dbId);
+        gateway.setDbStandBy(createGatewayCommand.standbyInstance);
 
         this.gatewayRepository.save(gateway);
-
-        eventPublisher.publish(ProvisionGatewayEvent.builder().gateway(gateway).build());
 
         return gateway;
     }

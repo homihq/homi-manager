@@ -1,8 +1,7 @@
-package com.homihq.manager.deployment.digitalocean;
+package com.homihq.manager.gateway.deployment.digitalocean;
 
 
-import com.homihq.manager.digitalocean.DigitalOceanApp;
-import com.homihq.manager.deployment.DeploymentException;
+import com.homihq.manager.gateway.deployment.DeploymentException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;

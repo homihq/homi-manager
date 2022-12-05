@@ -1,4 +1,4 @@
-package com.homihq.manager.digitalocean;
+package com.homihq.manager.gateway.deployment.digitalocean;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

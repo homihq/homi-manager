@@ -1,4 +1,4 @@
-package com.homihq.manager.deployment;
+package com.homihq.manager.gateway.deployment;
 
 import org.springframework.core.NestedRuntimeException;
 

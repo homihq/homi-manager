@@ -1,4 +1,4 @@
-package com.homihq.manager.digitalocean;
+package com.homihq.manager.gateway.deployment.digitalocean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

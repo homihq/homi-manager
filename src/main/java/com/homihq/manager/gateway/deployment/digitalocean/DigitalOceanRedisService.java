@@ -1,8 +1,7 @@
-package com.homihq.manager.deployment.digitalocean;
+package com.homihq.manager.gateway.deployment.digitalocean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.homihq.manager.digitalocean.DigitalOceanRedis;
-import com.homihq.manager.deployment.DeploymentException;
+import com.homihq.manager.gateway.deployment.DeploymentException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;

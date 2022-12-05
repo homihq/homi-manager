@@ -1,8 +1,9 @@
 package com.homihq.manager.gateway;
 
 
+import com.homihq.manager.gateway.deployment.digitalocean.DigitalOceanRedis;
 import com.homihq.manager.product.Region;
-import com.homihq.manager.digitalocean.DigitalOceanApp;
+import com.homihq.manager.gateway.deployment.digitalocean.DigitalOceanApp;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,7 +60,7 @@ public class Gateway {
 
     @Type(type = "jsonb")
     @Column(name = "do_redis_spec", columnDefinition = "jsonb")
-    private DigitalOceanApp doRedisSpec;
+    private DigitalOceanRedis doRedis;
 
     @Column(name = "do_app_id")
     private String doAppId;
@@ -68,7 +69,7 @@ public class Gateway {
     private String doDbId;
 
     @Type(type = "jsonb")
-    @Column(name = "do_redis_spec", columnDefinition = "jsonb")
+    @Column(name = "region", columnDefinition = "jsonb")
     private Region region;
 
     @Enumerated(EnumType.STRING)
@@ -104,7 +105,7 @@ public class Gateway {
     private boolean dbStandBy;
 
     public enum Status {
-        CREATED("Created"),
+        SUBMITTED("Submitted"),
         PROVISIONED("Provisioned"),
         READY("Ready"),
         DOWN("Down"),
