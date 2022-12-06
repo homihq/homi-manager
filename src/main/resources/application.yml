@@ -24,10 +24,6 @@ spring:
       throw-exception-if-no-handler-found: true
 
 
-app:
-  bulk:
-    max-emails: 200
-
 logging:
   level:
     org.springframework.security: info
@@ -51,3 +47,5 @@ aws:
     region:  ${AWS_REGION}
 
 
+hash:
+  pepper: ${HASH_PEPPER}

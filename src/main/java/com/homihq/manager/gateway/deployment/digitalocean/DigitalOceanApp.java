@@ -26,7 +26,7 @@ public class DigitalOceanApp {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class AppSpec {
-        private List<Domain> domains;
+        //private List<Domain> domains;
         private String name;
         private String region;
         private List<Service> services;
@@ -69,8 +69,8 @@ public class DigitalOceanApp {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Service {
-        @JsonProperty("http_port")
-        private long httpPort;
+        //@JsonProperty("http_port")
+        //private long httpPort;
         private Image image;
         private long instanceCount;
         @JsonProperty("instance_size_slug")

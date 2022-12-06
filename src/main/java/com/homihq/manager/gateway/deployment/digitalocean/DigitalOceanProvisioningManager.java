@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 class DigitalOceanProvisioningManager {
 
     private final DigitalOceanAppService digitalOceanAppService;
-    private final DigitalOceanRedisService digitalOceanRedisService;
+
 
 
     @EventListener
@@ -26,27 +26,20 @@ class DigitalOceanProvisioningManager {
         log.info("Starting provisioning gateway");
 
 
-        //1. create redis database
-        digitalOceanRedisService.create(
+        digitalOceanAppService.create(
                 createGatewayOrderEvent.getGateway().getDoApiToken(),
                 createGatewayOrderEvent.getGateway().getDoProjectId(),
-                createGatewayOrderEvent.getGateway().getName() + "-" + createGatewayOrderEvent.getGateway().getId(),
-                createGatewayOrderEvent.getGateway().isDbStandBy() ? 2 : 1,
-                createGatewayOrderEvent.getDb().getSlug(),
+                createGatewayOrderEvent.getGateway().getName(),
+                createGatewayOrderEvent.getGateway().getId(),
+                createGatewayOrderEvent.getGateway().getContainerCount(),
+                createGatewayOrderEvent.getContainer().getSlug(),
                 createGatewayOrderEvent.getGateway().getRegion().getSlug()
+
         );
 
 
-        //2. create app service
-
-
-        //3. setup cloud flare
-
-
-        //3. Provision Completed event
-    }
-
-    public void attachRedisToApp() {
 
     }
+
+
 }

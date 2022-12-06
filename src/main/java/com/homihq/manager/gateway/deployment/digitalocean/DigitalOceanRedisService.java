@@ -18,6 +18,7 @@ import java.util.Collections;
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@Deprecated
 class DigitalOceanRedisService {
 
     private final String digitalOceanUrl = "https://api.digitalocean.com/v2/databases";

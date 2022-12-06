@@ -47,9 +47,9 @@ public class GatewayService {
 
         this.gatewayRepository.save(gateway);
 
-        ProductVariant db = this.productVariantRepository.getReferenceById(createGatewayCommand.dbId);
+        ProductVariant container = this.productVariantRepository.findById(createGatewayCommand.containerId).get();
 
-        this.eventPublisher.publish(CreateGatewayOrderEvent.builder().gateway(gateway).db(db)
+        this.eventPublisher.publish(CreateGatewayOrderEvent.builder().gateway(gateway).container(container)
                 .build());
 
         return gateway;

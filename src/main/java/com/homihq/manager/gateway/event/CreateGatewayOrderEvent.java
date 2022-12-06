@@ -14,5 +14,5 @@ import lombok.NoArgsConstructor;
 public class CreateGatewayOrderEvent {
 
     private Gateway gateway;
-    private ProductVariant db;
+    private ProductVariant container;
 }
