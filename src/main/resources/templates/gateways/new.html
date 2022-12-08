@@ -123,69 +123,6 @@
                         </div>
                       </div>
 
-                      <div class="col-sm-6 col-md-6">
-                        <div class="mb-3">
-
-                          <label class="form-label required">Redis Cache</label>
-
-                          <select th:field="*{dbId}" class="form-control" th:errorclass="is-invalid" placeholder="Select Redis Cache">
-                            <option th:each="i : ${dbList}" th:selected="${i.id == createGatewayForm.dbId}"
-                                    th:text="${i?.description}"
-                                    th:value="${i?.id}">
-                          </select>
-
-                          <small class="form-hint">
-                            Redis is an in-memory data structure store. Gateway uses it for API rate limiting, caching, metrics etc.
-                          </small>
-
-                          <div class="invalid-feedback" th:if="${#fields.hasErrors('dbId')}" th:errors="*{dbId}">
-                            Please choose a username.
-                          </div>
-
-
-                        </div>
-                      </div>
-
-                      <div class="col-sm-6 col-md-6">
-                        <div class="mb-3">
-
-                          <label class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" th:field="*{standbyInstance}">
-                            <span class="form-check-label">Add standby node</span>
-                          </label>
-
-                          <small class="form-hint">
-                            Automatically replace the primary node in the case of a failure, ensuring the data stays available.
-                            Zero downtime recovery can be useful in production setup.
-                          </small>
-
-
-                        </div>
-                      </div>
-
-
-                      <div class="col-sm-6 col-md-6">
-                        <div class="mb-3">
-
-                          <label class="form-label required">Container Size</label>
-
-                          <select th:field="*{containerId}" class="form-control" th:errorclass="is-invalid" placeholder="Select Container Size">
-                            <option th:each="i : ${containerList}" th:selected="${i.id == createGatewayForm.containerId}"
-                                    th:text="${i?.description}"
-                                    th:value="${i?.id}">
-                          </select>
-
-                          <small class="form-hint">
-                            Gateway runs on container and can quickly scale horizontally.
-                          </small>
-
-                          <div class="invalid-feedback" th:if="${#fields.hasErrors('containerId')}" th:errors="*{containerId}">
-                            Please choose a username.
-                          </div>
-
-
-                        </div>
-                      </div>
 
                       <div class="col-sm-6 col-md-6">
                         <div class="mb-3">
@@ -211,11 +148,11 @@
                       <div class="col-sm-6 col-md-6">
                         <div class="mb-3">
                           <label class="form-label required">Digitalocean Project Id</label>
-                          <input type="text" class="form-control" placeholder="Enter digitalocean project id" required
+                          <input type="text" class="form-control" placeholder="Enter digitalocean deploymentTarget id" required
                                  th:field="*{doProjectId}"
                                  th:errorclass="is-invalid">
                           <small class="form-hint">
-                            Digitalocean project id will group the Gateway container, Redis database and any other resources together.
+                            Digitalocean deploymentTarget id will group the Gateway container, Redis database and any other resources together.
                           </small>
                           <div class="invalid-feedback" th:if="${#fields.hasErrors('doProjectId')}" th:errors="*{doProjectId}">
                             Please choose a username.

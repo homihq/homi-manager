@@ -4,7 +4,6 @@ package com.homihq.manager.gateway.deployment.digitalocean;
 import com.homihq.manager.gateway.deployment.DeploymentException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hashids.Hashids;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -30,7 +29,6 @@ class DigitalOceanAppService {
 
     private final RestTemplate restTemplate;
 
-    private final Hashids hashids;
 
     public DigitalOceanApp create(String doToken, String doProjectId,String gatewayName,
                                   Long gatewayId,

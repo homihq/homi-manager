@@ -1,7 +1,5 @@
 package com.homihq.manager.gateway;
 
-import com.homihq.manager.gateway.event.CreateGatewayOrderEvent;
-import com.homihq.manager.product.*;
 import com.homihq.manager.core.event.EventPublisher;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +14,6 @@ public class GatewayService {
 
     private final GatewayRepository gatewayRepository;
 
-    private final RegionRepository regionRepository;
-    private final ProductVariantRepository productVariantRepository;
-
-    private final EventPublisher eventPublisher;
-
     @Transactional
     public Gateway save(CreateGatewayCommand createGatewayCommand) {
         Gateway gateway = new Gateway();
@@ -28,31 +21,10 @@ public class GatewayService {
         gateway.setDescription(createGatewayCommand.description);
         gateway.setDeleted(false);
 
+        gateway.setStatus(Gateway.Status.CREATED);
 
-        //region
-        Region region = this.regionRepository.findById(createGatewayCommand.regionId).get();
-        gateway.setRegion(region);
+        return this.gatewayRepository.save(gateway);
 
-        gateway.setDoApiToken(createGatewayCommand.doTokenId);
-        gateway.setDoProjectId(createGatewayCommand.doProjectId);
-
-        gateway.setRedisStatus(Gateway.Status.SUBMITTED);
-        gateway.setAppStatus(Gateway.Status.SUBMITTED);
-        gateway.setStatus(Gateway.Status.SUBMITTED);
-
-        gateway.setContainerId(createGatewayCommand.containerId);
-        gateway.setContainerCount(createGatewayCommand.noOfInstances);
-        gateway.setDbId(createGatewayCommand.dbId);
-        gateway.setDbStandBy(createGatewayCommand.standbyInstance);
-
-        this.gatewayRepository.save(gateway);
-
-        ProductVariant container = this.productVariantRepository.findById(createGatewayCommand.containerId).get();
-
-        this.eventPublisher.publish(CreateGatewayOrderEvent.builder().gateway(gateway).container(container)
-                .build());
-
-        return gateway;
     }
 
     @Data
@@ -60,20 +32,7 @@ public class GatewayService {
 
         private String name;
         private String description;
-
-        private Integer regionId;
-
-        private Integer dbId;
-
-        private boolean standbyInstance;
-
-        private Integer containerId;
-
-        private int noOfInstances = 1;
-
-        private String doProjectId;
-
-        private String doTokenId;
+        
 
     }
 }

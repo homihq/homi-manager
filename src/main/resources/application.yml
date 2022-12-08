@@ -48,4 +48,4 @@ aws:
 
 
 hash:
-  pepper: ${HASH_PEPPER}
+
