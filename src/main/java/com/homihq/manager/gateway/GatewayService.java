@@ -1,11 +1,12 @@
 package com.homihq.manager.gateway;
 
-import com.homihq.manager.core.event.EventPublisher;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -22,6 +23,7 @@ public class GatewayService {
         gateway.setDeleted(false);
 
         gateway.setStatus(Gateway.Status.CREATED);
+        gateway.setGatewayKey("homi_"+ UUID.randomUUID().toString());
 
         return this.gatewayRepository.save(gateway);
 
@@ -32,7 +34,7 @@ public class GatewayService {
 
         private String name;
         private String description;
-        
+
 
     }
 }

@@ -49,8 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterAfter(customExceptionTranslationFilter, ExceptionTranslationFilter.class)
                 .authorizeRequests().antMatchers("/signin","/authenticate","/webjars/**",
-                        "/register","/actuator/health", "/","/signup","/verify","/waitlist",
-                        "/js/**","/assets/**","/billing/calculator",
+                        "/register","/actuator/health", "/","/signup","/verify",
+                        "/js/**","/assets/**",
                         "/css/**","/sitemap.txt","/robots.txt",
                         "/fonts/**",
                         "/images/**").permitAll()
@@ -58,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginProcessingUrl("/authenticate")
                 .usernameParameter("username").passwordParameter("password")
-                .loginPage("/signin").defaultSuccessUrl("/projects")
+                .loginPage("/signin").defaultSuccessUrl("/gateways")
                 .failureHandler(this.loginFailureHandler)
                 .permitAll()
                 .and()

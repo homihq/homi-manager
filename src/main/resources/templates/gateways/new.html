@@ -105,74 +105,15 @@
 
                       <div class="col-sm-6 col-md-6">
                         <div class="mb-3">
-                          <label class="form-label required">DigitalOcean Region</label>
+                          <label class="form-label">Gateway Key</label>
 
-                          <select th:field="*{regionId}" class="form-control" th:errorclass="is-invalid" placeholder="Select Region">
-                            <option th:each="i : ${regionList}" th:selected="${i.id == createGatewayForm.regionId}"
-                                    th:text="${i?.dataCenter + '-'+ i?.region + '-' +i?.continent}"
-                                    th:value="${i?.id}">
-                          </select>
+                          <input type="text" class="form-control" placeholder="System Generated"
+                                 th:field="*{gatewayKey}" disabled>
 
                           <small class="form-hint">
-                            Region is a DigitalOcean datacenter. Select one that is closest to your API services.
+                            Gateway Key is used to register the Gateway Instances with Homi Manager.
                           </small>
 
-                          <div class="invalid-feedback" th:if="${#fields.hasErrors('regionId')}" th:errors="*{regionId}">
-                            Please choose a username.
-                          </div>
-                        </div>
-                      </div>
-
-
-                      <div class="col-sm-6 col-md-6">
-                        <div class="mb-3">
-
-                          <label class="form-label required">No of containers</label>
-
-                          <input type="number" class="form-control" placeholder="Enter no of containers" required
-                                 th:field="*{noOfInstances}" step="1" min="1" max="10"
-                                 th:errorclass="is-invalid">
-
-                          <small class="form-hint">
-                            No of gateway containers to run. For highly scalable setup select more atleast 3 or more.
-                          </small>
-
-                          <div class="invalid-feedback" th:if="${#fields.hasErrors('noOfInstances')}" th:errors="*{noOfInstances}">
-                            Please choose a username.
-                          </div>
-
-
-                        </div>
-                      </div>
-
-                      <div class="col-sm-6 col-md-6">
-                        <div class="mb-3">
-                          <label class="form-label required">Digitalocean Project Id</label>
-                          <input type="text" class="form-control" placeholder="Enter digitalocean deploymentTarget id" required
-                                 th:field="*{doProjectId}"
-                                 th:errorclass="is-invalid">
-                          <small class="form-hint">
-                            Digitalocean deploymentTarget id will group the Gateway container, Redis database and any other resources together.
-                          </small>
-                          <div class="invalid-feedback" th:if="${#fields.hasErrors('doProjectId')}" th:errors="*{doProjectId}">
-                            Please choose a username.
-                          </div>
-                        </div>
-                      </div>
-
-
-                      <div class="col-sm-6 col-md-6">
-                        <div class="mb-3">
-                          <label class="form-label required">Digitalocean API Token</label>
-                          <input type="text" class="form-control" placeholder="Enter digitalocean API Token" required
-                                 th:field="*{doTokenId}"
-                                 th:errorclass="is-invalid">
-                          <small class="form-hint">
-                            Digitalocean API Token is required to create the API gateway.
-                          </small>
-                          <div class="invalid-feedback" th:if="${#fields.hasErrors('doTokenId')}" th:errors="*{doTokenId}">
-                            Please choose a username.
-                          </div>
                         </div>
                       </div>
 
@@ -194,7 +135,7 @@
                   </div>
 
                   <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary" th:disabled="${successKey}">Save</button>
                   </div>
                 </form>
               </div>

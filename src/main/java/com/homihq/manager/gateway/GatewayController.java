@@ -39,8 +39,9 @@ public class GatewayController {
             model.addAttribute("errorKey", "gateway.save.failed");
             return "gateways/new";
         }
-
+        Gateway gateway =
         this.gatewayService.save(modelMapper.map(createGatewayForm, GatewayService.CreateGatewayCommand.class));
+        createGatewayForm.gatewayKey = gateway.getGatewayKey();
         model.addAttribute("successKey", "gateway.save.success");
 
         return "gateways/new";
@@ -62,11 +63,8 @@ public class GatewayController {
         private String name;
         private String description;
 
-        private int noOfInstances;
-        private String doProjectId;
-        private String doTokenId;
+        private String gatewayKey = "System Generated";
 
-        private int deploymentTarget;
 
     }
 }

@@ -38,6 +38,9 @@ public class Gateway {
     @Column(name = "status")
     private Status status;
 
+    @Column(name = "gateway_key")
+    private String gatewayKey;
+
     @LastModifiedDate
     @Column(name = "last_updated_date")
     private LocalDateTime lastUpdatedDate;
