@@ -4,14 +4,20 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+
 
 @Controller
 @Slf4j
@@ -23,10 +29,23 @@ public class GatewayController {
 
     private final ModelMapper modelMapper;
 
+    @GetMapping("/search")
+    public String search(
+            @PageableDefault(value = 10, page = 0) Pageable pageable,
+            @RequestParam(name = "name", required = false, defaultValue = "") String name
+            ,Model model) {
+
+        Page<Gateway> gatewayPage = gatewayService.searchByName(name, pageable);
+
+        model.addAttribute("page",gatewayPage);
+        model.addAttribute("name", name);
+
+        return "gateways/frag/search :: gateways";
+    }
+
+
     @GetMapping
-    public String showProjects(Model model) {
-
-
+    public String viewGateways(Model model) {
         return "gateways/list";
     }
     @PostMapping("/save")
