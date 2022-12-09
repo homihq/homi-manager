@@ -10,9 +10,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "develop" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "develop" ]
 
 jobs:
 
@@ -47,5 +47,24 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: homihq/manager:v${{github.run_number}}
- 
-      
+
+    - name: Build and push Docker images
+        uses: docker/build-push-action@v3.2.0
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: homihq/micro-gateway:v${{github.run_number}}, homihq/micro-gateway:latest
+
+
+    - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+
+    - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
