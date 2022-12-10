@@ -8,7 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestHeader;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -17,6 +22,46 @@ import java.util.UUID;
 public class GatewayService {
 
     private final GatewayRepository gatewayRepository;
+
+    @Transactional
+    public void processMetaDataRequest(String gatewayKey,
+                             Long version,
+                             String instanceId) {
+        Optional<Gateway> gateway = this.gatewayRepository.findByGatewayKey(gatewayKey);
+        if(gateway.isPresent()) {
+            Gateway g = gateway.get();
+            //check for instance
+            if(Objects.isNull(g.getInstances())) {
+                GatwayInstance gi = new GatwayInstance();
+                gi.setId(instanceId);
+                gi.setCreatedDate(LocalDateTime.now());
+                gi.setLastUpdatedDate(LocalDateTime.now());
+                g.setInstances(List.of(gi));
+            }
+            else{
+                Optional<GatwayInstance> gi = g.getInstances().stream()
+                        .filter(i -> i.getId().equals(instanceId)).findFirst();
+
+                if(gi.isEmpty()) { // new instance
+                    GatwayInstance i = new GatwayInstance();
+                    i.setId(instanceId);
+                    i.setCreatedDate(LocalDateTime.now());
+                    i.setLastUpdatedDate(LocalDateTime.now());
+                    List<GatwayInstance> existingInstances = g.getInstances();
+                    existingInstances.add(i);
+                    g.setInstances(existingInstances);
+                }
+                else{
+                    GatwayInstance gatwayInstance = gi.get();
+                    gatwayInstance.setLastUpdatedDate(LocalDateTime.now());
+                }
+            }
+            this.gatewayRepository.save(g);
+        }
+
+        //return DTO - version id, routes
+
+    }
 
     @Transactional
     public Gateway save(CreateGatewayCommand createGatewayCommand) {
