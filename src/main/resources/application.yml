@@ -47,5 +47,3 @@ aws:
     region:  ${AWS_REGION}
 
 
-hash:
-
