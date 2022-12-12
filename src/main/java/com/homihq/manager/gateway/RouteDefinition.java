@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.util.*;
 
+@Data
 public class RouteDefinition {
 
     private String id;

@@ -10,12 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.multipart.MultipartFile;
+import org.yaml.snakeyaml.Yaml;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -28,6 +26,17 @@ public class GatewayService {
     public void updateRoutes(String gatewayKey, MultipartFile file) {
         Optional<Gateway> gateway =
         this.gatewayRepository.findByGatewayKey(gatewayKey);
+
+        try {
+            Yaml yaml = new Yaml();
+            Map<String, List<RouteDefinition>> routes =
+                    yaml.load(file.getInputStream());
+
+            log.info("routes - {}", routes);
+        }
+        catch(Exception e) {
+            log.info("Error", e);
+        }
 
         log.info("Gateway located - {}", gateway.get());
     }

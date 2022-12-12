@@ -26,7 +26,10 @@ public class GatewayApiController {
                                   @RequestHeader("X-ROUTE-VERSION") Long version,
                                   @RequestHeader("X-INSTANCE-ID") String instanceId
                                   ) {
-
+        log.info("gatewayKey = {}", gatewayKey);
+        log.info("tenantId = {}", tenantId);
+        log.info("version = {}", version);
+        log.info("instanceId = {}", instanceId);
     }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
