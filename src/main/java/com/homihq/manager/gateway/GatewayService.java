@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,6 +23,14 @@ import java.util.UUID;
 public class GatewayService {
 
     private final GatewayRepository gatewayRepository;
+
+    @Transactional
+    public void updateRoutes(String gatewayKey, MultipartFile file) {
+        Optional<Gateway> gateway =
+        this.gatewayRepository.findByGatewayKey(gatewayKey);
+
+        log.info("Gateway located - {}", gateway.get());
+    }
 
     @Transactional
     public void processMetaDataRequest(String gatewayKey,

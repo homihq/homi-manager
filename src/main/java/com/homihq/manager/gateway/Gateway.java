@@ -63,8 +63,8 @@ public class Gateway {
     private long routeVersion;
 
     @Type(type = "jsonb")
-    @Column(name = "routes")
-    private List<RouteDefinition> routes;
+    @Column(name = "api_definitions")
+    private List<ApiDefinition> apiDefinitions;
 
     @Type(type = "jsonb")
     @Column(name = "gateway_instances")
@@ -72,8 +72,6 @@ public class Gateway {
 
     public enum Status {
         CREATED("Created"),
-        REGISTERED("Registered"),
-        READY("Ready"),
         UP("UP"),
         DOWN("Down"),
         DELETED("Deleted");

@@ -40,6 +40,8 @@ public class GatewayApiController {
         log.info("gatewayKey - {}" , gatewayKey);
         log.info("tenantId - {}" , tenantId);
         log.info("uploadRoutesFileRequest - {}" , uploadRoutesFileRequest);
+
+        this.gatewayService.updateRoutes(gatewayKey, uploadRoutesFileRequest.file);
     }
 
 
