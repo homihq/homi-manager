@@ -47,13 +47,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterAfter(customExceptionTranslationFilter, ExceptionTranslationFilter.class)
+        http.csrf().ignoringAntMatchers("/v1/meta/**")
+                .and()
+                .addFilterAfter(customExceptionTranslationFilter, ExceptionTranslationFilter.class)
                 .authorizeRequests().antMatchers("/signin","/authenticate","/webjars/**",
                         "/register","/actuator/health", "/","/signup","/verify",
                         "/js/**","/assets/**",
                         "/css/**","/sitemap.txt","/robots.txt",
                         "/fonts/**",
-                        "/images/**").permitAll()
+                        "/images/**",
+                        "/v1/meta/**"
+                ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginProcessingUrl("/authenticate")

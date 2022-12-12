@@ -2,15 +2,20 @@ package com.homihq.manager.api;
 
 
 import com.homihq.manager.gateway.GatewayService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/meta")
+@Slf4j
 public class GatewayApiController {
 
     private final GatewayService gatewayService;
@@ -23,6 +28,29 @@ public class GatewayApiController {
                                   ) {
 
     }
+
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public void uploadMetaWithRoutes(
+            @RequestHeader("X-GW-KEY") String gatewayKey,
+            @RequestHeader("X-ORG_ID") String tenantId,
+            @Valid UploadRoutesFileRequest uploadRoutesFileRequest) {
+
+        log.info("gatewayKey - {}" , gatewayKey);
+        log.info("tenantId - {}" , tenantId);
+        log.info("uploadRoutesFileRequest - {}" , uploadRoutesFileRequest);
+    }
+
+
+    @Data
+    public static class UploadRoutesFileRequest {
+
+        @NotNull(message = "File is required.")
+        private MultipartFile file;
+
+    }
+
 
 
 }

@@ -18,11 +18,17 @@ public class TenantRequestInterceptor implements AsyncHandlerInterceptor {
       
        @Override
        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+           log.info("Pre handle");
 
            Optional<SimpleUser> u = SecurityUtil.getUser();
 
            if(u.isPresent()) {
                this.setTenantContext(u.get().getUser().getTenant().getTenantId());
+           }
+           else{
+               log.info("Handling api call");
+               String tenantId = request.getHeader("X-ORG_ID");
+               this.setTenantContext(tenantId);
            }
 
            return true;
