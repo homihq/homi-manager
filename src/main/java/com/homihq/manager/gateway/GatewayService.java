@@ -1,5 +1,7 @@
 package com.homihq.manager.gateway;
 
+import com.homihq.manager.gateway.apidef.ApiDefinition;
+import com.homihq.manager.gateway.apidef.DynamicRouteDefinitions;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.multipart.MultipartFile;
 import org.yaml.snakeyaml.Yaml;
 
@@ -22,28 +23,113 @@ public class GatewayService {
 
     private final GatewayRepository gatewayRepository;
 
+
     @Transactional
     public void updateRoutes(String gatewayKey, MultipartFile file) {
         Optional<Gateway> gateway =
         this.gatewayRepository.findByGatewayKey(gatewayKey);
 
-        try {
-            Yaml yaml = new Yaml();
-            Map<String, List<RouteDefinition>> routes =
-                    yaml.load(file.getInputStream());
+        if(gateway.isPresent()) {
+            try {
 
-            log.info("routes - {}", routes);
+                Yaml yaml = new Yaml();
+                ApiDefinition apiDefinition =
+                        yaml.loadAs(file.getInputStream(), ApiDefinition.class);
+
+                apiDefinition.validate();
+
+                List<ApiDefinition> apiDefinitions = gateway.get().getApiDefinitions();
+                boolean routesUpdated = false;
+
+
+                if(Objects.isNull(apiDefinitions)) {
+                    apiDefinition.setCreatedDate(LocalDateTime.now());
+                    apiDefinition.setLastUpdatedDate(LocalDateTime.now());
+                    apiDefinitions = List.of(apiDefinition);
+                    routesUpdated = true;
+
+                }
+                else{ //api defs are present
+
+                    //1. check if this api is present
+                    Optional<ApiDefinition> optionalApiDefinition =
+                    apiDefinitions.stream().filter(
+                            def -> def.getId().equals(apiDefinition.getId())
+                    ).findFirst();
+
+                    if(optionalApiDefinition.isPresent()) {
+                        //2. check for version change
+                        ApiDefinition apiDef = optionalApiDefinition.get();
+                        if(apiDef.getVersion().equals(apiDefinition.getVersion())) {
+                            log.info("API Definition exits with same version ignoring.");
+
+                        }
+                        else{
+                            log.info("API Definition exits with different version spotted.Preparing update");
+                            apiDefinition.setCreatedDate(apiDef.getCreatedDate());
+                            apiDefinition.setLastUpdatedDate(LocalDateTime.now());
+                            apiDefinitions.remove(apiDef);
+                            apiDefinitions.add(apiDefinition);
+                            routesUpdated = true;
+
+                        }
+                    }
+                    else{
+                        log.info("API Definition not found. New definition will be added.");
+                        apiDefinition.setCreatedDate(LocalDateTime.now());
+                        apiDefinition.setLastUpdatedDate(LocalDateTime.now());
+                        apiDefinitions.add(apiDefinition);
+                        routesUpdated = true;
+
+
+                    }
+
+                }
+
+
+                if(routesUpdated) {
+                    log.info("Routes updated");
+                    Gateway gw = gateway.get();
+
+                    gw.incrementRouteVersion();
+                    gw.setApiDefinitions(apiDefinitions);
+
+                    this.gatewayRepository.save(gw);
+                }
+            }
+            catch(Exception e) {
+                log.info("Error", e);
+            }
         }
-        catch(Exception e) {
-            log.info("Error", e);
+        else{
+            log.info("Gateway not found.");
         }
+
 
         log.info("Gateway located - {}", gateway.get());
     }
 
     @Transactional
-    public void processMetaDataRequest(String gatewayKey,
-                             Long version,
+    public DynamicRouteDefinitions queryApiDefinitions(String gatewayKey,
+                                                   String instanceId) {
+        Optional<Gateway> gateway = this.gatewayRepository.findByGatewayKey(gatewayKey);
+
+        if(gateway.isPresent()) {
+            log.info("Gateway found.");
+            List<ApiDefinition> definitions = gateway.get().getApiDefinitions();
+
+            log.info("definitions = {}", definitions);
+            this.updateInstance(gatewayKey, instanceId);
+            return DynamicRouteDefinitions.builder().apiDefinitions(definitions)
+                    .version(gateway.get().getRouteVersion()).build();
+        }
+        else{
+            log.info("Gateway not found.");
+            return DynamicRouteDefinitions.builder().build();
+        }
+    }
+    @Transactional
+    public void updateInstance(String gatewayKey,
                              String instanceId) {
         Optional<Gateway> gateway = this.gatewayRepository.findByGatewayKey(gatewayKey);
         if(gateway.isPresent()) {
@@ -108,6 +194,7 @@ public class GatewayService {
         }
 
     }
+
 
 
     @Data

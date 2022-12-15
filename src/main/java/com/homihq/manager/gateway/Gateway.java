@@ -1,5 +1,6 @@
 package com.homihq.manager.gateway;
 
+import com.homihq.manager.gateway.apidef.ApiDefinition;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -63,12 +64,13 @@ public class Gateway {
     private long routeVersion;
 
     @Type(type = "jsonb")
-    @Column(name = "api_definitions")
+    @Column(name = "api_definitions", columnDefinition = "jsonb")
     private List<ApiDefinition> apiDefinitions;
 
     @Type(type = "jsonb")
-    @Column(name = "gateway_instances")
+    @Column(name = "gateway_instances", columnDefinition = "jsonb")
     private List<GatwayInstance> instances;
+
 
     public enum Status {
         CREATED("Created"),
@@ -88,6 +90,8 @@ public class Gateway {
 
     }
 
-
+    public void incrementRouteVersion() {
+        this.routeVersion++;
+    }
 
 }

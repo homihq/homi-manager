@@ -1,4 +1,4 @@
-package com.homihq.manager.gateway;
+package com.homihq.manager.gateway.apidef;
 
 import lombok.Data;
 
@@ -19,21 +19,8 @@ public class RouteDefinition {
 
     private int order = 0;
 
-    @Data
-    private static class FilterDefinition {
-
-        private String name;
-
-        private Map<String, String> args = new LinkedHashMap<>();
-    }
-
-    @Data
-    public class PredicateDefinition {
 
 
-        private String name;
 
-        private Map<String, String> args = new LinkedHashMap<>();
-    }
 
 }
